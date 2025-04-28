@@ -5,53 +5,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <title>Kuwar Abhinav Aman Portfolio</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,500;1,600;1,700;1,800;1,900&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Bonbon&display=swap');
 
         * {
             padding: 0;
             margin: 0;
             box-sizing: border-box;
+            font-family: Poppins, sans-serif;
         }
 
         body {
-            height: 100vh;
+            min-height: 100vh;
+            background-color: #1c2526;
+            color: #fff;
             overflow-x: hidden;
+            line-height: 1.6;
         }
 
         main {
             display: flex;
-            height: 100%;
-            width: 100%;
-            font-family: Poppins;
             flex-direction: column;
+            height: 100%;
         }
 
         aside {
             width: 100%;
-            display: flex;
-            flex-direction: row;
             height: 60px;
-            font-size: 1.1rem;
             background-color: #212529;
-            backdrop-filter: blur(20px);
+            position: fixed;
+            top: 0;
             z-index: 1000;
-            position: relative;
+            display: flex;
+            justify-content: flex-end;
+            padding: 10px;
+        }
+
+        .menu-toggle {
+            display: block;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
         }
 
         .Links {
             display: none;
-            flex-direction: column;
-            width: 100%;
-            background-color: #212529;
             position: absolute;
             top: 60px;
             left: 0;
+            width: 100%;
+            background-color: #212529;
+            flex-direction: column;
             padding: 10px 0;
         }
 
@@ -59,392 +67,143 @@
             display: flex;
         }
 
-        aside li {
-            list-style-type: none;
-            display: flex;
+        .Links li {
+            list-style: none;
             padding: 15px 20px;
-            gap: 10px;
-            color: white;
-            align-items: center;
+            color: #fff;
             cursor: pointer;
-            position: relative;
-            transition-duration: 0.2s;
+            transition: color 0.3s;
         }
 
-        aside li:hover {
+        .Links li:hover {
             color: #80ed99;
         }
 
-        aside li::after {
-            position: absolute;
-            width: 100%;
-            left: 0;
-            height: 1px;
-            background: linear-gradient(to left, transparent, #ffffff24, transparent);
-            content: '';
-            bottom: 0;
-        }
-
-        aside li i {
-            font-size: 1.3rem;
-        }
-
-        .activeLink {
+        .Links li.active {
             color: #80ed99;
-        }
-
-        .menu-toggle {
-            display: block;
-            padding: 15px;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            position: absolute;
-            right: 10px;
-            top: 10px;
-            z-index: 1001;
         }
 
         .mySwiper {
-            flex: 1;
             height: calc(100vh - 60px);
             width: 100%;
+            margin-top: 60px;
             overflow: hidden;
         }
 
-        .home-slide {
-            color: white;
+        .swiper-slide {
+            background-color: #2c3e50;
             display: flex;
-            background-color: #343a40;
             flex-direction: column;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
-            height: 100%;
-            overflow-y: auto;
+            box-sizing: border-box;
         }
 
-        .HomeContent {
-            margin: auto 0;
-            flex: 1;
-            padding: 20px;
-            user-select: none;
-            order: 2;
+        .home-slide {
             text-align: center;
         }
 
         .SideImg {
-            width: 80%;
-            max-width: 300px;
-            margin: 20px auto;
+            width: 150px;
+            height: 150px;
+            overflow: hidden;
+            border-radius: 10px;
             position: relative;
-            order: 1;
+            margin-bottom: 20px;
         }
 
         .SideImg img {
             width: 100%;
-            border-radius: 10px;
-        }
-
-        .SideImg .top-right-corner,
-        .bottom-left-corner {
-            position: absolute;
-        }
-
-        .bottom-left-corner {
-            left: -20px;
-            bottom: -20px;
-            rotate: -90deg;
-        }
-
-        .top-right-corner {
-            right: -20px;
-            top: -20px;
-            rotate: 90deg;
-        }
-
-        .hr1 {
-            width: 60px;
-            height: 5px;
-            border: none;
-            background: #80ed99;
-            border-top-right-radius: 3px;
-            border-bottom-right-radius: 3px;
-        }
-
-        .hr2 {
-            width: 5px;
-            height: 60px;
-            border-bottom-left-radius: 3px;
-            background: #80ed99;
-            border: none;
-            border-bottom-right-radius: 3px;
+            height: 100%;
+            object-fit: cover;
         }
 
         .HomeContent h1 {
-            font-size: 2em;
-            font-weight: 700;
+            font-size: 1.8em;
+            color: #80ed99;
             margin-bottom: 10px;
         }
 
         .HomeContent h2 {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-            font-weight: 600;
+            font-size: 1.2em;
+            color: #fff;
+            margin-bottom: 15px;
         }
 
-        .HomeContent h1 .stylized-name {
-            font-weight: 700;
-            color: #80ed99;
-        }
-
-        .proffesions {
-            color: #85f69f;
-        }
-
-        .HomeContent .heroline {
-            font-size: 1rem;
-            font-weight: 300;
+        .HomeContent p {
+            font-size: 0.9em;
+            color: #ccc;
+            margin-bottom: 20px;
         }
 
         .buttonGroup {
             display: flex;
-            padding: 10px 0;
-            margin-top: 10px;
+            gap: 10px;
             flex-wrap: wrap;
             justify-content: center;
         }
 
-        .buttonGroup button,
-        .primary {
+        .buttonGroup button {
             padding: 10px 20px;
+            background-color: #27ae60;
+            color: #fff;
             border: none;
-            outline: none;
-            font-size: 1rem;
-            font-weight: 500;
-            margin: 5px;
-            cursor: pointer;
-            background-color: #1d8637;
-            color: white;
             border-radius: 5px;
-            flex-grow: 1;
-            max-width: 200px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.3s;
         }
 
-        .slide-help {
-            position: relative;
-            text-align: center;
-            font-weight: 400;
-            z-index: 100;
-            width: 100%;
-            box-sizing: border-box;
-            font-size: 1rem;
-            margin-top: 20px;
-            order: 3;
+        .buttonGroup button:hover {
+            background-color: #2ecc71;
         }
 
-        .swiper-slide {
-            width: 100%;
-            background-color: #343a40;
-            height: 100%;
-            overflow-y: auto;
-        }
-
-        .about-us {
-            width: 100%;
-            height: 100%;
+        .about-us, .services, .projects, .contactMe {
             padding: 20px;
-            color: white;
-            overflow: auto;
+            text-align: center;
         }
 
         .heading {
-            padding: 20px 10px;
-            font-size: 2rem;
-            color: #80ed99;
-            text-align: center;
-        }
-
-        .about-us h3 {
-            padding: 10px;
-            font-size: 1.2rem;
-            text-align: center;
-        }
-
-        .aboutme-deatils {
-            padding: 10px;
-            font-weight: 300;
-            font-size: 0.9rem;
-            text-align: center;
-        }
-
-        .about-me-divison {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .about-me-table {
-            width: 100%;
-            display: grid;
-            grid-template-columns: 1fr;
-        }
-
-        .about-me-table li {
-            padding: 10px;
-            position: relative;
-            font-size: 0.9rem;
-            text-align: center;
-        }
-
-        .about-me-table li::after {
-            position: absolute;
-            width: 100%;
-            left: 0;
-            height: 1px;
-            background: linear-gradient(to left, transparent, #ffffff77, transparent);
-            content: '';
-            bottom: 0;
-        }
-
-        .about-me-table span {
-            color: #80ed99;
-            font-weight: bold;
-            margin-right: 5px;
-        }
-
-        .about-me-table .buttonGroup {
-            padding: 20px;
-            justify-content: center;
-        }
-
-        .skill-bar {
-            width: 100%;
-            padding-top: 20px;
-        }
-
-        .skill-bar li {
-            width: 100%;
-            padding: 10px;
-        }
-
-        .skill-bar p {
-            color: #80ed99;
-            font-weight: bold;
-            margin: 5px;
-            font-size: 0.9rem;
-            text-align: center;
-        }
-
-        .skill-bar .bar {
-            width: 100%;
-            height: 10px;
-            background-color: #272c30;
-            border-radius: 20px;
-        }
-
-        .active-bar {
-            background-color: #80ed99;
-            height: 100%;
-            width: auto;
-            border-radius: 20px;
-        }
-
-        .services {
-            color: white;
-            display: grid;
-            grid-template-columns: 1fr;
-            grid-template-rows: auto;
-            padding: 20px;
-            box-sizing: border-box;
-            gap: 10px;
-            height: 100%;
-            overflow-y: auto;
-        }
-
-        .services .heading {
-            grid-column: 1;
-        }
-
-        .services .service {
-            display: flex;
-            text-align: center;
-            justify-content: center;
-            padding: 15px;
-            background-color: rgba(0, 0, 0, 0.437);
-            border-radius: 5px;
-            margin: 5px;
-            backdrop-filter: blur(10px);
-            flex-direction: column;
-            transition-duration: 0.25s;
-        }
-
-        .services .service i {
-            font-size: 2rem;
-            color: #80ed99;
-        }
-
-        .services .service .service-icon {
-            padding: 0 20px;
-            border-radius: 5px;
-            margin: 5px auto;
-        }
-
-        .service h2 {
-            color: #80ed99;
-            font-size: 1.2rem;
-        }
-
-        .service p {
-            font-size: 0.9rem;
-        }
-
-        .service:hover {
-            background-color: #80ed99;
-            color: #176d2d;
-        }
-
-        .service:hover h2,
-        .service:hover i {
-            color: #176d2d;
-        }
-
-        .projects {
-            color: white;
-            padding: 20px;
-            box-sizing: border-box;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .projects .heading {
-            font-size: 2rem;
+            font-size: 1.8em;
             color: #80ed99;
             margin-bottom: 20px;
         }
 
-        .project-list-container {
-            flex: 1;
-            overflow-y: auto;
-            padding-right: 5px;
-        }
-
-        .project-list {
+        .about-me-table {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-            padding-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
-        .project-item {
-            background-color: rgba(0, 0, 0, 0.437);
-            border-radius: 10px;
+        .about-me-table div {
+            background-color: #34495e;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .skill-bar {
+            margin-bottom: 20px;
+        }
+
+        .skill-bar div {
+            background-color: #34495e;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .services .service {
+            background-color: #34495e;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .projects .project-item {
+            background-color: #34495e;
+            border-radius: 5px;
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .project-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 15px;
         }
 
         .project-image img {
@@ -454,437 +213,189 @@
         }
 
         .project-details {
-            padding: 15px;
+            padding: 10px;
         }
 
         .project-details h2 {
-            font-size: 1.2rem;
             color: #80ed99;
-            margin-bottom: 8px;
-        }
-
-        .project-details p {
-            font-size: 0.9rem;
-            color: #ccc;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
 
         .project-link {
             display: inline-block;
             padding: 8px 15px;
             background-color: #80ed99;
-            color: #176d2d;
+            color: #2c3e50;
             text-decoration: none;
             border-radius: 5px;
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-
-        .project-link:hover {
-            background-color: #85f69f;
-        }
-
-        .contactMe {
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            padding: 20px;
-            height: 100%;
-            overflow-y: auto;
-        }
-
-        .contactMe h1 {
-            font-size: 2rem;
-            padding: 15px;
-            text-align: center;
+            margin-top: 5px;
         }
 
         .contact-info-container {
             display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
             justify-content: space-around;
             margin-bottom: 20px;
-            order: 1;
+            flex-wrap: wrap;
         }
 
         .contactinfo {
-            display: flex;
-            flex-direction: column;
-            padding: 10px;
-            color: white;
-            justify-content: center;
-            text-align: center;
-            align-items: center;
-            min-width: 150px;
-            margin: 5px;
+            margin: 10px;
         }
 
         .contactinfo i {
-            padding: 10px;
-            font-size: 1.5rem;
             color: #80ed99;
-            margin: 10px auto;
+            margin-bottom: 5px;
         }
 
-        .contactinfo h3 {
-            color: #80ed99;
-            font-size: 1rem;
-        }
-
-        .contactinfo p {
-            font-size: 0.9rem;
-        }
-
-        .contactMe form {
+        form {
             display: flex;
             flex-direction: column;
-            width: 100%;
+            gap: 10px;
+        }
+
+        form input, form textarea {
+            background-color: #212529;
+            border: none;
+            border-radius: 5px;
             padding: 10px;
-            color: white;
-            order: 2;
+            color: #fff;
         }
 
-        .contactMe form h2 {
-            padding: 15px;
-            display: flex;
-            font-size: 1.2rem;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .contactMe form input {
-            padding: 12px;
-            border-radius: 8px;
-            margin: 10px 0;
-            font-size: 1rem;
+        form button {
+            background-color: #27ae60;
             border: none;
-            color: white;
-            background-color: #212529;
-        }
-
-        .contactMe form input:focus {
-            border: 1px solid #85f69f;
-            outline: none;
-        }
-
-        .contactMe form textarea {
-            width: 100%;
-            margin: 10px 0;
-            padding: 15px;
-            font-size: 1rem;
-            border-radius: 8px;
-            resize: none;
-            border: none;
-            color: white;
-            background-color: #212529;
-        }
-
-        .contactMe form textarea:focus {
-            border: 1px solid #85f69f;
-        }
-
-        .contactMe button {
-            margin: 15px auto;
-            width: 100%;
-            max-width: 200px;
+            padding: 10px;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
         }
 
         footer {
-            position: relative;
             text-align: center;
-            color: white;
-            width: 100%;
-            font-weight: 200;
-            font-size: 0.7rem;
-            margin-top: auto;
-            order: 3;
             padding: 10px;
-        }
-
-        footer li {
-            padding: 5px;
-        }
-
-        form h2 .SocialLinks {
-            padding: 5px;
             background-color: #212529;
-            border-radius: 30px;
+            font-size: 0.8em;
         }
 
-        form h2 .SocialLinks i {
-            padding: 8px;
-            border-radius: 50%;
-            transition-duration: 0.25s;
-            font-size: 1rem;
-        }
-
-        form h2 .SocialLinks i:hover {
-            background-color: #176d2d;
-        }
-
-        /* Media Queries for Responsive Design */
         @media (min-width: 768px) {
-            main {
-                flex-direction: row;
-            }
-
             aside {
-                width: 280px;
-                flex-direction: column;
-                height: 100%;
+                width: 250px;
+                height: 100vh;
                 position: fixed;
-            }
-
-            .Links {
-                display: flex;
                 flex-direction: column;
-                margin: auto 0;
-                position: static;
-                top: auto;
-                left: auto;
-                padding: 0;
+                justify-content: flex-start;
+                padding-top: 20px;
             }
 
             .menu-toggle {
                 display: none;
             }
 
-            aside li {
-                padding: 20px;
+            .Links {
+                display: flex;
+                position: static;
+                width: 100%;
+                padding: 0;
             }
 
             .mySwiper {
-                height: 100%;
-                width: calc(100% - 280px);
-                margin-left: 280px;
+                width: calc(100% - 250px);
+                margin-left: 250px;
             }
 
             .home-slide {
                 flex-direction: row;
-                padding: 0;
                 align-items: center;
-                overflow: hidden;
-            }
-
-            .HomeContent {
-                padding: 100px;
-                order: 1;
-                text-align: left;
-            }
-
-            .SideImg {
-                width: 30%;
-                margin: auto 10px;
-                margin-right: 100px;
-                order: 2;
-                max-width: none;
-            }
-
-            .slide-help {
-                position: absolute;
-                bottom: 10px;
-                left: 0;
-                order: 3;
-            }
-
-            .about-us {
-                padding: 100px;
-            }
-
-            .about-me-divison {
-                flex-direction: row;
-            }
-
-            .about-me-table {
-                width: 60%;
-                grid-template-columns: repeat(2, 50%);
-            }
-
-            .about-me-table li {
-                text-align: left;
-            }
-
-            .skill-bar {
-                width: calc(40% - 20px);
-                padding-top: 0;
-            }
-
-            .skill-bar p {
-                text-align: left;
-            }
-
-            .services {
-                grid-template-columns: repeat(3, calc(34% - 10px));
-                grid-template-rows: 100px calc(50% - 50px) calc(50% - 50px);
+                justify-content: space-between;
                 padding: 50px;
             }
 
-            .services .heading {
-                grid-column: 1/span 3;
+            .SideImg {
+                width: 200px;
+                height: 200px;
+                margin-right: 20px;
             }
 
-            .project-list {
+            .HomeContent {
+                text-align: left;
+                max-width: 60%;
+            }
+
+            .HomeContent h1 {
+                font-size: 2.5em;
+            }
+
+            .HomeContent h2 {
+                font-size: 1.5em;
+            }
+
+            .HomeContent p {
+                font-size: 1em;
+            }
+
+            .about-me-table {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .services {
+                display: grid;
                 grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+
+            .projects .project-list {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
             }
 
             .contactMe {
                 display: grid;
-                grid-template-columns: 20% 80%;
-                grid-template-rows: 80px calc(25% - 20px) calc(25% - 20px) calc(25% - 20px) calc(25% - 20px);
-                padding: 100px;
+                grid-template-columns: 1fr 2fr;
+                gap: 20px;
             }
 
-            .contactMe h1 {
-                grid-column: 1/span 3;
-                text-align: left;
-            }
-
-            .contact-info-container {
-                display: contents;
-            }
-
-            .contactMe form {
-                grid-area: 2/2/span 5/span 2;
-                display: grid;
-                grid-template-columns: 50% 50%;
-            }
-
-            .contactMe form h2 {
-                grid-column: 1/span 2;
-            }
-
-            .contactMe form textarea {
-                width: calc(100% - 40px);
-                grid-column: 1/span 2;
-            }
-
-            .contactMe button {
-                grid-column: 1/span 2;
-                width: auto;
-            }
-
-            footer {
-                position: absolute;
-                bottom: 0;
-                right: 0;
-            }
-
-            .heading, .about-us h3, .aboutme-deatils {
-                text-align: left;
-            }
-        }
-
-        @media (min-width: 992px) {
-            .HomeContent h1 {
-                font-size: 3em;
-            }
-
-            .HomeContent h2 {
-                font-size: 2.3em;
-            }
-
-            .HomeContent .heroline {
-                font-size: 1.5rem;
-                padding-right: 50px;
-            }
-
-            .SideImg .bottom-left-corner {
-                left: -50px;
-                bottom: -50px;
-            }
-
-            .SideImg .top-right-corner {
-                right: -50px;
-                top: -50px;
-            }
-
-            .hr1 {
-                width: 150px;
-                height: 10px;
-            }
-
-            .hr2 {
-                width: 10px;
-                height: 120px;
+            form {
+                grid-column: 2;
             }
         }
 
         @media (max-width: 480px) {
             .HomeContent h1 {
-                font-size: 1.8em;
+                font-size: 1.5em;
             }
 
             .HomeContent h2 {
-                font-size: 1.3em;
+                font-size: 1em;
             }
 
-            .HomeContent .heroline {
-                font-size: 0.9rem;
+            .HomeContent p {
+                font-size: 0.8em;
             }
 
             .buttonGroup button {
-                padding: 8px 16px;
-                font-size: 0.9rem;
+                font-size: 0.8em;
+                padding: 8px 15px;
             }
 
             .heading {
-                font-size: 1.8rem;
+                font-size: 1.5em;
             }
 
-            .about-us h3 {
-                font-size: 1rem;
-            }
-
-            .aboutme-deatils {
-                font-size: 0.8rem;
-            }
-
-            .services .service i {
-                font-size: 1.8rem;
-            }
-
-            .service h2 {
-                font-size: 1rem;
-            }
-
-            .service p {
-                font-size: 0.8rem;
+            .project-image img {
+                height: 100px;
             }
 
             .project-details h2 {
-                font-size: 1rem;
+                font-size: 1em;
             }
 
             .project-details p {
-                font-size: 0.8rem;
+                font-size: 0.8em;
             }
 
-            .project-link {
-                padding: 6px 12px;
-                font-size: 0.8rem;
-            }
-
-            .contactinfo i {
-                font-size: 1.3rem;
-            }
-
-            .contactinfo h3 {
-                font-size: 0.9rem;
-            }
-
-            .contactinfo p {
-                font-align: 0.8rem;
-            }
-
-            .contactMe form h2 {
-                font-size: 1rem;
-            }
-
-            .contactMe form input,
-            .contactMe form textarea {
-                padding: 10px;
-                font-size: 0.9rem;
+            form input, form textarea {
+                font-size: 0.9em;
             }
         }
     </style>
@@ -897,213 +408,84 @@
                 <i class="fas fa-bars"></i>
             </div>
             <ul class="Links">
-                <li onclick="Navigate(0)" class="activeLink"><i class="fa-solid fa-house"></i>
-                    <p>Home</p>
-                </li>
-                <li onclick="Navigate(1)"><i class="fa-solid fa-user"></i>
-                    <p>About Me</p>
-                </li>
-                <li onclick="Navigate(2)"><i class="fa-solid fa-list"></i>
-                    <p>Services</p>
-                </li>
-                <li onclick="Navigate(3)"><i class="fa-solid fa-folder"></i>
-                    <p>Projects</p>
-                </li>
-                <li onclick="Navigate(4)"><i class="fa-solid fa-comments"></i>
-                    <p>Contact Me</p>
-                </li>
+                <li onclick="Navigate(0)" class="active"><i class="fa-solid fa-house"></i> Home</li>
+                <li onclick="Navigate(1)"><i class="fa-solid fa-user"></i> About Me</li>
+                <li onclick="Navigate(2)"><i class="fa-solid fa-list"></i> Services</li>
+                <li onclick="Navigate(3)"><i class="fa-solid fa-folder"></i> Projects</li>
+                <li onclick="Navigate(4)"><i class="fa-solid fa-comments"></i> Contact Me</li>
             </ul>
         </aside>
         <div class="swiper mySwiper">
-            <div class="SlideContainer swiper-wrapper">
+            <div class="swiper-wrapper">
                 <div class="swiper-slide home-slide">
+                    <div class="SideImg">
+                        <img src="https://via.placeholder.com/150" alt="Kuwar Abhinav Aman">
+                    </div>
                     <div class="HomeContent">
-                        <h1>Hi! I'm <span class="stylized-name">Kuwar Abhinav Aman</span>,</h1>
-                        <h2>A <span class="proffesions">Data Analyst</span></h2>
-                        <p class="heroline">I specialize in turning data into insights and ideas into functional web
-                            applications. With a passion for problem-solving and technology, I create solutions that
-                            make an impact.</p>
+                        <h1>Hi! I'm Kuwar Abhinav Aman,</h1>
+                        <h2>A Data Analyst</h2>
+                        <p>I specialize in turning data into insights and ideas into functional web applications. With a passion for problem-solving and technology, I create solutions that make an impact.</p>
                         <div class="buttonGroup">
                             <button onclick="Navigate(4)">Hire Me</button>
                             <button onclick="Navigate(4)">Contact Me</button>
                         </div>
                     </div>
-                    <div class="SideImg">
-                        <div class="top-right-corner">
-                            <hr class="hr1">
-                            <hr class="hr2">
-                        </div>
-                        <img src="image.jpeg" alt="Kuwar Abhinav Aman">
-                        <div class="bottom-left-corner">
-                            <hr class="hr1">
-                            <hr class="hr2">
-                        </div>
-                    </div>
-                    <p class="slide-help">Scroll for next slide <i class="fa-solid fa-chevron-right fa-shake"></i>
-                    </p>
                 </div>
-                <div class="swiper-slide">
-                    <div class="about-us">
-                        <h1 class="heading">About Me</h1>
-                        <h3 class="sub-heading">I'm Kuwar Abhinav Aman, <span class="proffesions">A Data Analyst</span>
-                        </h3>
-                        <p class="aboutme-deatils">
-                            I am a passionate data analyst and web developer with expertise in Python, Power BI, SQL,
-                            and Django. I thrive on solving problems, designing impactful solutions, and creating
-                            user-friendly applications. My goal is to bridge technology and functionality to drive
-                            results.
-                        </p>
-                        <div class="about-me-divison">
-                            <div class="about-me-table">
-                                <li><span>Experience:</span> 1 year</li>
-                                <li><span>Country:</span> India</li>
-                                <li><span>Avability:</span> 24/7 </li>
-                                <li><span>Age</span>: 23</li>
-                                <li><span>Phone</span>: +91843190134</li>
-                                <li><span>Language Used:</span> HTML</li>
-                                <li><span>Degree</span>: MBA</li>
-                                <div class="buttonGroup">
-                                    <button onclick="Navigate(4)">Hire Me</button>
-                                    <button onclick="Navigate(4)">Contact Me</button>
-                                </div>
-                            </div>
-                            <div class="skill-bar">
-                                <li>
-                                    <p>Power BI</p>
-                                    <div class="bar">
-                                        <div class="active-bar" style="width:80%"></div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <p>Advance Excel</p>
-                                    <div class="bar">
-                                        <div class="active-bar" style="width:80%"></div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <p>MySQL</p>
-                                    <div class="bar">
-                                        <div class="active-bar" style="width:70%"></div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <p>Python</p>
-                                    <div class="bar">
-                                        <div class="active-bar" style="width:80%"></div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <p>Django</p>
-                                    <div class="bar">
-                                        <div class="active-bar" style="width:50%"></div>
-                                    </div>
-                                </li>
-                            </div>
-                        </div>
+                <div class="swiper-slide about-us">
+                    <h1 class="heading">About Me</h1>
+                    <div class="about-me-table">
+                        <div>Experience: 1 year</div>
+                        <div>Country: India</div>
+                        <div>Availability: 24/7</div>
+                        <div>Age: 23</div>
+                        <div>Phone: +91843190134</div>
+                        <div>Language Used: HTML</div>
+                        <div>Degree: MBA</div>
+                    </div>
+                    <div class="skill-bar">
+                        <div>Power BI: 80%</div>
+                        <div>Advance Excel: 80%</div>
+                        <div>MySQL: 70%</div>
+                        <div>Python: 80%</div>
+                        <div>Django: 50%</div>
                     </div>
                 </div>
                 <div class="swiper-slide services">
                     <h1 class="heading">Services</h1>
                     <div class="service">
-                        <div class="service-icon"><i class="fa-solid fa-pen-ruler"></i></div>
                         <h2>Web Design</h2>
                         <p>Creating clean, modern, and user-friendly website designs.</p>
                     </div>
                     <div class="service">
-                        <div class="service-icon"><i class="fa-solid fa-globe"></i></div>
                         <h2>Web Development</h2>
                         <p>Developing robust websites and web apps tailored to your needs.</p>
                     </div>
                     <div class="service">
-                        <div class="service-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
                         <h2>Data Analytics</h2>
                         <p>Analyzing and visualizing data to unlock insights and trends.</p>
-                    </div>
-                    <div class="service">
-                        <div class="service-icon"><i class="fa-solid fa-database"></i></div>
-                        <h2>Database Management</h2>
-                        <p>Optimizing database performance and ensuring data integrity for seamless operations.</p>
-                    </div>
-                    <div class="service">
-                        <div class="service-icon"><i class="fa-solid fa-tachometer-alt"></i></div>
-                        <h2>Interactive Dashboards</h2>
-                        <p>Building visually appealing dashboards using Power BI to track key metrics.</p>
-                    </div>
-                    <div class="service">
-                        <div class="service-icon"><i class="fa-solid fa-chart-line"></i></div>
-                        <h2>Data Automation & Reporting</h2>
-                        <p>Automating data workflows and generating real-time reports using Python, Excel, and SQL.</p>
                     </div>
                 </div>
                 <div class="swiper-slide projects">
                     <h1 class="heading">Projects</h1>
-                    <div class="project-list-container">
-                        <div class="project-list">
-                            <div class="project-item">
-                                <div class="project-image">
-                                    <img src="https://picsum.photos/200/300?random=7" alt="JARVIS AI Voice Assistant">
-                                </div>
-                                <div class="project-details">
-                                    <h2>JARVIS AI Voice Assistant</h2>
-                                    <p>An AI-based personal assistant with face authentication for secure access.
-                                        Developed with Python backend and HTML/CSS/JavaScript frontend. Features include
-                                        app control, information retrieval, reminders, and secure face recognition
-                                        authentication.</p>
-                                    <a href="https://github.com/KuwarAbhinavAman/J.A.R.V.I.S-/tree/master"
-                                        class="project-link" target="_blank" rel="noopener noreferrer">View Project</a>
-                                </div>
+                    <div class="project-list">
+                        <div class="project-item">
+                            <div class="project-image">
+                                <img src="https://picsum.photos/200/150" alt="JARVIS AI Voice Assistant">
                             </div>
-                            <div class="project-item">
-                                <div class="project-image">
-                                    <img src="https://picsum.photos/200/300?random=10" alt="Amazon Analysis Dashboard">
-                                </div>
-                                <div class="project-details">
-                                    <h2>Amazon Product Analysis Dashboard</h2>
-                                    <p>Power BI dashboard providing comprehensive analysis of Amazon products including
-                                        sales trends, customer reviews, and product performance metrics with interactive
-                                        visualizations and data-driven insights.</p>
-                                    <a href="https://github.com/KuwarAbhinavAman/Amazon_Analysis" class="project-link"
-                                        target="_blank" rel="noopener noreferrer">View Project</a>
-                                </div>
+                            <div class="project-details">
+                                <h2>JARVIS AI Voice Assistant</h2>
+                                <p>An AI-based personal assistant with face authentication for secure access.</p>
+                                <a href="https://github.com/KuwarAbhinavAman/J.A.R.V.I.S-" class="project-link">View Project</a>
                             </div>
-                            <div class="project-item">
-                                <div class="project-image">
-                                    <img src="https://picsum.photos/200/300?random=11" alt="Blinkit Analysis Dashboard">
-                                </div>
-                                <div class="project-details">
-                                    <h2>Blinkit Analysis Dashboard</h2>
-                                    <p>Power BI dashboard analyzing Blinkit's operational data including sales patterns,
-                                        customer behavior analytics, delivery performance metrics, and inventory
-                                        management insights.</p>
-                                    <a href="https://github.com/KuwarAbhinavAman/Blinkit_-sales-dashboard-task_4"
-                                        class="project-link" target="_blank" rel="noopener noreferrer">View Project</a>
-                                </div>
+                        </div>
+                        <div class="project-item">
+                            <div class="project-image">
+                                <img src="https://picsum.photos/200/150" alt="Amazon Analysis Dashboard">
                             </div>
-                            <div class="project-item">
-                                <div class="project-image">
-                                    <img src="https://picsum.photos/200/300?random=9" alt="Social Media App">
-                                </div>
-                                <div class="project-details">
-                                    <h2>Social Media Application</h2>
-                                    <p>A Django-based social media platform featuring user authentication, real-time
-                                        chat functionality, post creation, user profiles, and interactive elements with
-                                        a responsive frontend design.</p>
-                                    <a href="https://github.com/KuwarAbhinavAman/sccial_media_app" class="project-link"
-                                        target="_blank" rel="noopener noreferrer">View Project</a>
-                                </div>
-                            </div>
-                            <div class="project-item">
-                                <div class="project-image">
-                                    <img src="https://picsum.photos/200/300?random=13" alt="Student Score Analyzer">
-                                </div>
-                                <div class="project-details">
-                                    <h2>Advanced Student Score Analyzer with ML</h2>
-                                    <p>Machine learning application that analyzes student performance data to predict
-                                        outcomes, identify at-risk students, and provide actionable insights for
-                                        academic improvement using predictive analytics.</p>
-                                    <a href="https://github.com/KuwarAbhinavAman/Advance-student-score-analyzer-withML/blob/main"
-                                        class="project-link" target="_blank" rel="noopener noreferrer">View Project</a>
-                                </div>
+                            <div class="project-details">
+                                <h2>Amazon Product Analysis Dashboard</h2>
+                                <p>Power BI dashboard providing comprehensive analysis of Amazon products.</p>
+                                <a href="https://github.com/KuwarAbhinavAman/Amazon_Analysis" class="project-link">View Project</a>
                             </div>
                         </div>
                     </div>
@@ -1111,45 +493,37 @@
                 <div class="swiper-slide contactMe">
                     <h1 class="heading">Contact Me</h1>
                     <div class="contact-info-container">
-                        <div class="contactinfo"><i class="fa-solid fa-phone"></i>
-                            <h3>Mobile No</h3>
+                        <div class="contactinfo">
+                            <i class="fa-solid fa-phone"></i>
                             <p>+91843190134</p>
                         </div>
-                        <div class="contactinfo"><i class="fa-solid fa-location-dot"></i>
-                            <h3>Location</h3>
+                        <div class="contactinfo">
+                            <i class="fa-solid fa-location-dot"></i>
                             <p>Greater Noida</p>
                         </div>
-                        <div class="contactinfo"><i class="fa-regular fa-envelope"></i>
-                            <h3>Email</h3>
+                        <div class="contactinfo">
+                            <i class="fa-regular fa-envelope"></i>
                             <p>abhinavabby9@gmail.com</p>
                         </div>
                     </div>
                     <form id="contactForm" onsubmit="sendEmail(event)">
-                        <h2>Send Me A Message
-                            <div class="SocialLinks">
-                                <a href="https://www.linkedin.com/in/kuwar-abhinav-aman-4888b2238/" target="_blank" rel="noopener noreferrer">
-                                    <i class="fa-brands fa-linkedin"></i>
-                                </a>
-                            </div>
-                        </h2>
                         <input type="text" name="name" placeholder="Name" required>
                         <input type="email" name="email" placeholder="Email" required>
-                        <textarea name="message" rows="8" placeholder="Type your Message Here..." required></textarea>
-                        <button type="submit" class="primary">Send</button>
+                        <textarea name="message" rows="4" placeholder="Type your Message Here..." required></textarea>
+                        <button type="submit">Send</button>
                     </form>
-                    <footer>
-                        <li>Copyright © 2025 ABBY.</li>
-                    </footer>
                 </div>
             </div>
+            <div class="swiper-pagination"></div>
         </div>
     </main>
+    <footer>
+        <p>Copyright © 2025 Kuwar Abhinav Aman</p>
+    </footer>
 
     <script>
-        // Initialize EmailJS
         emailjs.init("i65U53N4yTK_YnW1");
 
-        // Send email via EmailJS
         function sendEmail(event) {
             event.preventDefault();
             const form = event.target;
@@ -1164,122 +538,57 @@
             };
 
             emailjs.send("service_442mfh", "temp_gechfl0x", templateParams)
-                .then(function(response) {
+                .then(() => {
                     alert("Message sent successfully!");
                     form.reset();
-                }, function(error) {
-                    console.error("EmailJS Error:", error);
-                    alert("Failed to send message. Please try again later or contact me directly at abhinavabby9@gmail.com");
+                }, (error) => {
+                    alert("Failed to send message. Please try again.");
+                    console.error(error);
                 });
         }
 
-        // Initialize Swiper
-        var swiper = new Swiper(".swiper", {
-            effect: "cube",
-            allowTouchMove: true,
+        var swiper = new Swiper(".mySwiper", {
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            effect: "slide",
             grabCursor: true,
-            cubeEffect: {
-                shadow: true,
-                slideShadows: true,
-                shadowOffset: 20,
-                shadowScale: 0.94,
-            },
-            mousewheel: {
-                forceToAxis: true,
-            },
+            allowTouchMove: true,
             keyboard: {
                 enabled: true,
             },
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-            },
+            mousewheel: true,
         });
 
-        // Navigate to slide
         function Navigate(index) {
-            document.querySelectorAll(".Links li").forEach((link) => link.classList.remove("activeLink"));
-            document.querySelectorAll(".Links li")[index].classList.add("activeLink");
-            swiper.slideTo(index, 1000, true);
-            const links = document.querySelector('.Links');
-            if (links.classList.contains('show')) {
-                links.classList.remove('show');
+            document.querySelectorAll(".Links li").forEach(li => li.classList.remove("active"));
+            document.querySelectorAll(".Links li")[index].classList.add("active");
+            swiper.slideTo(index);
+            if (window.innerWidth <= 768) {
+                document.querySelector(".Links").classList.remove("show");
             }
         }
 
-                // Toggle mobile menu
         function toggleMenu() {
-            const links = document.querySelector('.Links');
-            links.classList.toggle('show');
+            document.querySelector(".Links").classList.toggle("show");
         }
 
-        // Set initial active link
-        document.addEventListener("DOMContentLoaded", function () {
-            const initialSlide = swiper.activeIndex;
-            Navigate(initialSlide);
+        document.addEventListener("DOMContentLoaded", () => Navigate(swiper.activeIndex));
+        swiper.on("slideChange", () => Navigate(swiper.activeIndex));
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "ArrowRight") swiper.slideNext();
+            if (event.key === "ArrowLeft") swiper.slidePrev();
         });
 
-        // Update active link on slide change
-        swiper.on("slideChange", function () {
-            const activeIndex = swiper.activeIndex;
-            Navigate(activeIndex);
-        });
-
-        // Keyboard navigation
-        document.addEventListener("keydown", function (event) {
-            if (event.key === "ArrowRight") {
-                swiper.slideNext();
-            } else if (event.key === "ArrowLeft") {
-                swiper.slidePrev();
+        document.addEventListener("click", (event) => {
+            const menuToggle = document.querySelector(".menu-toggle");
+            const links = document.querySelector(".Links");
+            if (!menuToggle.contains(event.target) && !links.contains(event.target) && links.classList.contains("show")) {
+                links.classList.remove("show");
             }
         });
-
-        // Close menu when clicking outside
-        document.addEventListener('click', function(event) {
-            const menuToggle = document.querySelector('.menu-toggle');
-            const links = document.querySelector('.Links');
-            if (!menuToggle.contains(event.target) && !links.contains(event.target) && links.classList.contains('show')) {
-                links.classList.remove('show');
-            }
-        });
-
-        // Enable touch scrolling for mobile
-        document.addEventListener('touchstart', handleTouchStart, false);        
-        document.addEventListener('touchmove', handleTouchMove, false);
-
-        let xDown = null;                                                        
-        let yDown = null;
-
-        function handleTouchStart(evt) {                                         
-            xDown = evt.touches[0].clientX;                                      
-            yDown = evt.touches[0].clientY;                                      
-        };                                                
-
-        function handleTouchMove(evt) {
-            if (!xDown || !yDown) {
-                return;
-            }
-
-            let xUp = evt.touches[0].clientX;                                    
-            let yUp = evt.touches[0].clientY;
-
-            let xDiff = xDown - xUp;
-            let yDiff = yDown - yUp;
-
-            if (Math.abs(xDiff) > Math.abs(yDiff)) {
-                if (xDiff > 0) {
-                    /* left swipe */ 
-                    swiper.slideNext();
-                } else {
-                    /* right swipe */
-                    swiper.slidePrev();
-                }                       
-            } 
-
-            /* reset values */
-            xDown = null;
-            yDown = null;                                             
-        };
     </script>
 </body>
 </html>
