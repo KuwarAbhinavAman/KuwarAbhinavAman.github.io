@@ -36,7 +36,7 @@
             width: 100%;
             display: flex;
             flex-direction: row;
-            height: auto;
+            height: 60px;
             font-size: 1.1rem;
             background-color: #212529;
             backdrop-filter: blur(20px);
@@ -109,6 +109,7 @@
             flex: 1;
             height: calc(100vh - 60px);
             width: 100%;
+            overflow: hidden;
         }
 
         .home-slide {
@@ -117,6 +118,7 @@
             background-color: #343a40;
             flex-direction: column;
             padding: 20px;
+            height: 100%;
             overflow-y: auto;
         }
 
@@ -217,7 +219,7 @@
             border: none;
             outline: none;
             font-size: 1rem;
-clu            font-weight: 500;
+            font-weight: 500;
             margin: 5px;
             cursor: pointer;
             background-color: #1d8637;
@@ -239,13 +241,6 @@ clu            font-weight: 500;
             order: 3;
         }
 
-        .mySwiper {
-            width: 100%;
-            height: calc(100vh - 60px);
-            overflow: hidden;
-            background-color: #343a40;
-        }
-
         .swiper-slide {
             width: 100%;
             background-color: #343a40;
@@ -265,17 +260,20 @@ clu            font-weight: 500;
             padding: 20px 10px;
             font-size: 2rem;
             color: #80ed99;
+            text-align: center;
         }
 
         .about-us h3 {
             padding: 10px;
             font-size: 1.2rem;
+            text-align: center;
         }
 
         .aboutme-deatils {
             padding: 10px;
             font-weight: 300;
             font-size: 0.9rem;
+            text-align: center;
         }
 
         .about-me-divison {
@@ -293,6 +291,7 @@ clu            font-weight: 500;
             padding: 10px;
             position: relative;
             font-size: 0.9rem;
+            text-align: center;
         }
 
         .about-me-table li::after {
@@ -331,6 +330,7 @@ clu            font-weight: 500;
             font-weight: bold;
             margin: 5px;
             font-size: 0.9rem;
+            text-align: center;
         }
 
         .skill-bar .bar {
@@ -355,6 +355,8 @@ clu            font-weight: 500;
             padding: 20px;
             box-sizing: border-box;
             gap: 10px;
+            height: 100%;
+            overflow-y: auto;
         }
 
         .services .heading {
@@ -488,11 +490,13 @@ clu            font-weight: 500;
             position: relative;
             padding: 20px;
             height: 100%;
+            overflow-y: auto;
         }
 
         .contactMe h1 {
             font-size: 2rem;
             padding: 15px;
+            text-align: center;
         }
 
         .contact-info-container {
@@ -638,6 +642,7 @@ clu            font-weight: 500;
                 margin: auto 0;
                 position: static;
                 top: auto;
+                left: auto;
                 padding: 0;
             }
 
@@ -659,6 +664,7 @@ clu            font-weight: 500;
                 flex-direction: row;
                 padding: 0;
                 align-items: center;
+                overflow: hidden;
             }
 
             .HomeContent {
@@ -672,6 +678,7 @@ clu            font-weight: 500;
                 margin: auto 10px;
                 margin-right: 100px;
                 order: 2;
+                max-width: none;
             }
 
             .slide-help {
@@ -694,9 +701,17 @@ clu            font-weight: 500;
                 grid-template-columns: repeat(2, 50%);
             }
 
+            .about-me-table li {
+                text-align: left;
+            }
+
             .skill-bar {
                 width: calc(40% - 20px);
                 padding-top: 0;
+            }
+
+            .skill-bar p {
+                text-align: left;
             }
 
             .services {
@@ -722,6 +737,7 @@ clu            font-weight: 500;
 
             .contactMe h1 {
                 grid-column: 1/span 3;
+                text-align: left;
             }
 
             .contact-info-container {
@@ -752,6 +768,10 @@ clu            font-weight: 500;
                 position: absolute;
                 bottom: 0;
                 right: 0;
+            }
+
+            .heading, .about-us h3, .aboutme-deatils {
+                text-align: left;
             }
         }
 
@@ -854,7 +874,7 @@ clu            font-weight: 500;
             }
 
             .contactinfo p {
-                font-size: 0.8rem;
+                font-align: 0.8rem;
             }
 
             .contactMe form h2 {
@@ -1115,9 +1135,7 @@ clu            font-weight: 500;
                         <input type="text" name="name" placeholder="Name" required>
                         <input type="email" name="email" placeholder="Email" required>
                         <textarea name="message" rows="8" placeholder="Type your Message Here..." required></textarea>
-                        <button type="submit"
-
- class="primary">Send</button>
+                        <button type="submit" class="primary">Send</button>
                     </form>
                     <footer>
                         <li>Copyright © 2025 ABBY.</li>
@@ -1169,6 +1187,9 @@ clu            font-weight: 500;
             mousewheel: {
                 forceToAxis: true,
             },
+            keyboard: {
+                enabled: true,
+            },
             navigation: {
                 nextEl: ".swiper-button-next",
                 prevEl: ".swiper-button-prev",
@@ -1186,7 +1207,7 @@ clu            font-weight: 500;
             }
         }
 
-        // Toggle mobile menu
+                // Toggle mobile menu
         function toggleMenu() {
             const links = document.querySelector('.Links');
             links.classList.toggle('show');
@@ -1221,4 +1242,44 @@ clu            font-weight: 500;
                 links.classList.remove('show');
             }
         });
+
+        // Enable touch scrolling for mobile
+        document.addEventListener('touchstart', handleTouchStart, false);        
+        document.addEventListener('touchmove', handleTouchMove, false);
+
+        let xDown = null;                                                        
+        let yDown = null;
+
+        function handleTouchStart(evt) {                                         
+            xDown = evt.touches[0].clientX;                                      
+            yDown = evt.touches[0].clientY;                                      
+        };                                                
+
+        function handleTouchMove(evt) {
+            if (!xDown || !yDown) {
+                return;
+            }
+
+            let xUp = evt.touches[0].clientX;                                    
+            let yUp = evt.touches[0].clientY;
+
+            let xDiff = xDown - xUp;
+            let yDiff = yDown - yUp;
+
+            if (Math.abs(xDiff) > Math.abs(yDiff)) {
+                if (xDiff > 0) {
+                    /* left swipe */ 
+                    swiper.slideNext();
+                } else {
+                    /* right swipe */
+                    swiper.slidePrev();
+                }                       
+            } 
+
+            /* reset values */
+            xDown = null;
+            yDown = null;                                             
+        };
     </script>
+</body>
+</html>
