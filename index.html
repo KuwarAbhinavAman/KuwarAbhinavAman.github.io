@@ -7,13 +7,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script>
-    <!-- Add EmailJS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <title>Kuwar Abhinav Aman Portfolio</title>
     <style>
-        /* author: https://codepen.io/MuzammalAhmed/pen/qBGVZPe
-        Muzammal Ahmed */
-
         @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,500;1,600;1,700;1,800;1,900&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Bonbon&display=swap');
 
@@ -25,6 +21,7 @@
 
         body {
             height: 100vh;
+            overflow-x: hidden;
         }
 
         main {
@@ -32,28 +29,40 @@
             height: 100%;
             width: 100%;
             font-family: Poppins;
+            flex-direction: column;
         }
 
         aside {
-            width: 280px;
+            width: 100%;
             display: flex;
-            flex-direction: column;
-            height: 100%;
+            flex-direction: row;
+            height: auto;
             font-size: 1.1rem;
             background-color: #212529;
             backdrop-filter: blur(20px);
+            z-index: 1000;
+            position: relative;
         }
 
         .Links {
-            display: flex;
+            display: none;
             flex-direction: column;
-            margin: auto;
+            width: 100%;
+            background-color: #212529;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            padding: 10px 0;
+        }
+
+        .Links.show {
+            display: flex;
         }
 
         aside li {
             list-style-type: none;
             display: flex;
-            padding: 20px;
+            padding: 15px 20px;
             gap: 10px;
             color: white;
             align-items: center;
@@ -69,11 +78,11 @@
         aside li::after {
             position: absolute;
             width: 100%;
-            left: 0px;
+            left: 0;
             height: 1px;
             background: linear-gradient(to left, transparent, #ffffff24, transparent);
             content: '';
-            bottom: 0px;
+            bottom: 0;
         }
 
         aside li i {
@@ -81,33 +90,51 @@
         }
 
         .activeLink {
-            color: #80ed99
+            color: #80ed99;
+        }
+
+        .menu-toggle {
+            display: block;
+            padding: 15px;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            z-index: 1001;
         }
 
         .mySwiper {
             flex: 1;
-            height: 100%;
+            height: calc(100vh - 60px);
+            width: 100%;
         }
 
         .home-slide {
             color: white;
             display: flex;
             background-color: #343a40;
+            flex-direction: column;
+            padding: 20px;
+            overflow-y: auto;
         }
 
         .HomeContent {
-            margin: auto 0px;
+            margin: auto 0;
             flex: 1;
-            height: auto;
-            padding: 100px;
+            padding: 20px;
             user-select: none;
+            order: 2;
+            text-align: center;
         }
 
         .SideImg {
-            width: 30%;
-            margin: auto 10px;
-            margin-right: 100px;
+            width: 80%;
+            max-width: 300px;
+            margin: 20px auto;
             position: relative;
+            order: 1;
         }
 
         .SideImg img {
@@ -121,20 +148,20 @@
         }
 
         .bottom-left-corner {
-            left: -50px;
-            bottom: -50px;
+            left: -20px;
+            bottom: -20px;
             rotate: -90deg;
         }
 
         .top-right-corner {
-            right: -50px;
-            top: -50px;
+            right: -20px;
+            top: -20px;
             rotate: 90deg;
         }
 
         .hr1 {
-            width: 150px;
-            height: 10px;
+            width: 60px;
+            height: 5px;
             border: none;
             background: #80ed99;
             border-top-right-radius: 3px;
@@ -142,8 +169,8 @@
         }
 
         .hr2 {
-            width: 10px;
-            height: 120px;
+            width: 5px;
+            height: 60px;
             border-bottom-left-radius: 3px;
             background: #80ed99;
             border: none;
@@ -151,13 +178,13 @@
         }
 
         .HomeContent h1 {
-            font-size: 3em;
+            font-size: 2em;
             font-weight: 700;
             margin-bottom: 10px;
         }
 
         .HomeContent h2 {
-            font-size: 2.3em;
+            font-size: 1.5em;
             margin-bottom: 10px;
             font-weight: 600;
         }
@@ -172,15 +199,16 @@
         }
 
         .HomeContent .heroline {
-            font-size: 1.5rem;
+            font-size: 1rem;
             font-weight: 300;
-            padding-right: 50px;
         }
 
         .buttonGroup {
             display: flex;
-            padding: 10px 0px;
+            padding: 10px 0;
             margin-top: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .buttonGroup button,
@@ -188,31 +216,32 @@
             padding: 10px 20px;
             border: none;
             outline: none;
-            font-size: 1.2rem;
-            font-weight: 500;
+            font-size: 1rem;
+clu            font-weight: 500;
             margin: 5px;
             cursor: pointer;
             background-color: #1d8637;
             color: white;
             border-radius: 5px;
+            flex-grow: 1;
+            max-width: 200px;
         }
 
         .slide-help {
-            position: absolute;
-            bottom: 10px;
-            width: 100%;
+            position: relative;
             text-align: center;
             font-weight: 400;
             z-index: 100;
-            left: 0%;
             width: 100%;
             box-sizing: border-box;
-            font-size: 1.2rem;
+            font-size: 1rem;
+            margin-top: 20px;
+            order: 3;
         }
 
         .mySwiper {
-            width: 80vw;
-            height: 100vh;
+            width: 100%;
+            height: calc(100vh - 60px);
             overflow: hidden;
             background-color: #343a40;
         }
@@ -221,54 +250,59 @@
             width: 100%;
             background-color: #343a40;
             height: 100%;
+            overflow-y: auto;
         }
 
         .about-us {
             width: 100%;
             height: 100%;
-            padding: 100px;
+            padding: 20px;
             color: white;
             overflow: auto;
         }
 
         .heading {
             padding: 20px 10px;
-            font-size: 2.5rem;
+            font-size: 2rem;
             color: #80ed99;
         }
 
         .about-us h3 {
             padding: 10px;
+            font-size: 1.2rem;
         }
 
         .aboutme-deatils {
-            padding: 20px;
+            padding: 10px;
             font-weight: 300;
+            font-size: 0.9rem;
         }
 
         .about-me-divison {
             display: flex;
+            flex-direction: column;
         }
 
         .about-me-table {
-            width: 60%;
+            width: 100%;
             display: grid;
-            grid-template-columns: repeat(2, 50%);
+            grid-template-columns: 1fr;
         }
 
         .about-me-table li {
-            padding: 20px;
+            padding: 10px;
             position: relative;
+            font-size: 0.9rem;
         }
 
         .about-me-table li::after {
             position: absolute;
             width: 100%;
-            left: 0px;
+            left: 0;
             height: 1px;
             background: linear-gradient(to left, transparent, #ffffff77, transparent);
             content: '';
-            bottom: 0px;
+            bottom: 0;
         }
 
         .about-me-table span {
@@ -278,14 +312,13 @@
         }
 
         .about-me-table .buttonGroup {
-            grid-column: 1/span 2;
+            padding: 20px;
             justify-content: center;
-            padding: 50px;
-            flex: 1;
         }
 
         .skill-bar {
-            width: calc(40% - 20px);
+            width: 100%;
+            padding-top: 20px;
         }
 
         .skill-bar li {
@@ -296,12 +329,13 @@
         .skill-bar p {
             color: #80ed99;
             font-weight: bold;
-            margin: 10px;
+            margin: 5px;
+            font-size: 0.9rem;
         }
 
         .skill-bar .bar {
             width: 100%;
-            height: 15px;
+            height: 10px;
             background-color: #272c30;
             border-radius: 20px;
         }
@@ -316,14 +350,15 @@
         .services {
             color: white;
             display: grid;
-            grid-template-columns: repeat(3, calc(34% - 10px));
-            grid-template-rows: 100px calc(50% - 50px) calc(50% - 50px);
-            padding: 50px;
+            grid-template-columns: 1fr;
+            grid-template-rows: auto;
+            padding: 20px;
             box-sizing: border-box;
+            gap: 10px;
         }
 
         .services .heading {
-            grid-column: 1/span 3;
+            grid-column: 1;
         }
 
         .services .service {
@@ -333,69 +368,68 @@
             padding: 15px;
             background-color: rgba(0, 0, 0, 0.437);
             border-radius: 5px;
-            margin: 20px;
+            margin: 5px;
             backdrop-filter: blur(10px);
             flex-direction: column;
             transition-duration: 0.25s;
         }
 
         .services .service i {
-            font-size: 3rem;
-            color: #80ed99
+            font-size: 2rem;
+            color: #80ed99;
         }
 
         .services .service .service-icon {
-            padding: 0px 50px;
+            padding: 0 20px;
             border-radius: 5px;
             margin: 5px auto;
         }
 
         .service h2 {
-            color: #80ed99
+            color: #80ed99;
+            font-size: 1.2rem;
+        }
+
+        .service p {
+            font-size: 0.9rem;
         }
 
         .service:hover {
             background-color: #80ed99;
-            color: #176d2d
+            color: #176d2d;
         }
 
         .service:hover h2,
         .service:hover i {
-            color: #176d2d
+            color: #176d2d;
         }
 
-        /* Projects Section */
         .projects {
             color: white;
-            padding: 100px;
+            padding: 20px;
             box-sizing: border-box;
-            height: 100vh;
-            /* Full viewport height */
+            height: 100%;
             display: flex;
             flex-direction: column;
         }
 
         .projects .heading {
-            font-size: 2.5rem;
+            font-size: 2rem;
             color: #80ed99;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
         }
 
         .project-list-container {
             flex: 1;
-            /* Take remaining space */
             overflow-y: auto;
-            /* Enable vertical scrolling */
-            padding-right: 10px;
-            /* Add some padding to avoid overlap with scrollbar */
+            padding-right: 5px;
         }
 
         .project-list {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            grid-template-columns: 1fr;
+            gap: 15px;
             padding-bottom: 20px;
-            /* Add padding at the bottom */
         }
 
         .project-item {
@@ -407,41 +441,41 @@
         }
 
         .project-item:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .project-image img {
             width: 100%;
-            height: 200px;
+            height: 150px;
             object-fit: cover;
         }
 
         .project-details {
-            padding: 20px;
+            padding: 15px;
         }
 
         .project-details h2 {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             color: #80ed99;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .project-details p {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #ccc;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .project-link {
             display: inline-block;
-            padding: 10px 20px;
+            padding: 8px 15px;
             background-color: #80ed99;
             color: #176d2d;
             text-decoration: none;
             border-radius: 5px;
             font-weight: 500;
-            transition: background-color 0.3s ease;
+            font-size: 0.9rem;
         }
 
         .project-link:hover {
@@ -449,21 +483,25 @@
         }
 
         .contactMe {
-            display: grid;
-            grid-template-columns: 20% 80%;
-            grid-template-rows: 80px calc(25% - 20px) calc(25% - 20px) calc(25% - 20px) calc(25% - 20px);
+            display: flex;
+            flex-direction: column;
             position: relative;
-            padding: 100px;
+            padding: 20px;
+            height: 100%;
         }
 
         .contactMe h1 {
-            grid-column: 1/span 3;
-            font-size: 2.5rem;
-            padding: 30px;
+            font-size: 2rem;
+            padding: 15px;
         }
 
-        .contactMe form {
-            grid-area: 2/2/ span 5/span 2;
+        .contact-info-container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            order: 1;
         }
 
         .contactinfo {
@@ -474,39 +512,48 @@
             justify-content: center;
             text-align: center;
             align-items: center;
+            min-width: 150px;
+            margin: 5px;
         }
 
         .contactinfo i {
             padding: 10px;
-            font-size: 2.5rem;
+            font-size: 1.5rem;
             color: #80ed99;
-            margin: 30px auto 10px auto;
+            margin: 10px auto;
         }
 
         .contactinfo h3 {
             color: #80ed99;
+            font-size: 1rem;
+        }
+
+        .contactinfo p {
+            font-size: 0.9rem;
         }
 
         .contactMe form {
-            display: grid;
-            grid-template-columns: 50% 50%;
+            display: flex;
+            flex-direction: column;
             width: 100%;
-            padding: 20px;
-            height: fit-content;
+            padding: 10px;
             color: white;
+            order: 2;
         }
 
         .contactMe form h2 {
-            grid-column: 1/span 2;
-            padding: 20px;
+            padding: 15px;
             display: flex;
+            font-size: 1.2rem;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .contactMe form input {
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px;
-            font-size: 1.1rem;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 1rem;
             border: none;
             color: white;
             background-color: #212529;
@@ -518,12 +565,11 @@
         }
 
         .contactMe form textarea {
-            width: calc(100% - 40px);
-            grid-column: 1/span 2;
-            margin: 20px;
-            padding: 20px;
-            font-size: 1.1rem;
-            border-radius: 10px;
+            width: 100%;
+            margin: 10px 0;
+            padding: 15px;
+            font-size: 1rem;
+            border-radius: 8px;
             resize: none;
             border: none;
             color: white;
@@ -531,46 +577,295 @@
         }
 
         .contactMe form textarea:focus {
-            border: 1px solid #85f69f !important;
+            border: 1px solid #85f69f;
         }
 
         .contactMe button {
-            grid-column: 1/span 2;
-            margin: 20px auto;
+            margin: 15px auto;
+            width: 100%;
+            max-width: 200px;
         }
 
         footer {
-            position: absolute;
-            bottom: 0px;
-            right: 0px;
+            position: relative;
             text-align: center;
             color: white;
             width: 100%;
             font-weight: 200;
-            font-size: 0.5rem;
+            font-size: 0.7rem;
+            margin-top: auto;
+            order: 3;
+            padding: 10px;
         }
 
         footer li {
-            padding: 10px;
+            padding: 5px;
         }
 
         form h2 .SocialLinks {
             padding: 5px;
-            width: fit-content;
-            margin-left: auto;
-            margin-right: 10px;
             background-color: #212529;
             border-radius: 30px;
         }
 
         form h2 .SocialLinks i {
-            padding: 10px;
+            padding: 8px;
             border-radius: 50%;
             transition-duration: 0.25s;
+            font-size: 1rem;
         }
 
         form h2 .SocialLinks i:hover {
             background-color: #176d2d;
+        }
+
+        /* Media Queries for Responsive Design */
+        @media (min-width: 768px) {
+            main {
+                flex-direction: row;
+            }
+
+            aside {
+                width: 280px;
+                flex-direction: column;
+                height: 100%;
+                position: fixed;
+            }
+
+            .Links {
+                display: flex;
+                flex-direction: column;
+                margin: auto 0;
+                position: static;
+                top: auto;
+                padding: 0;
+            }
+
+            .menu-toggle {
+                display: none;
+            }
+
+            aside li {
+                padding: 20px;
+            }
+
+            .mySwiper {
+                height: 100%;
+                width: calc(100% - 280px);
+                margin-left: 280px;
+            }
+
+            .home-slide {
+                flex-direction: row;
+                padding: 0;
+                align-items: center;
+            }
+
+            .HomeContent {
+                padding: 100px;
+                order: 1;
+                text-align: left;
+            }
+
+            .SideImg {
+                width: 30%;
+                margin: auto 10px;
+                margin-right: 100px;
+                order: 2;
+            }
+
+            .slide-help {
+                position: absolute;
+                bottom: 10px;
+                left: 0;
+                order: 3;
+            }
+
+            .about-us {
+                padding: 100px;
+            }
+
+            .about-me-divison {
+                flex-direction: row;
+            }
+
+            .about-me-table {
+                width: 60%;
+                grid-template-columns: repeat(2, 50%);
+            }
+
+            .skill-bar {
+                width: calc(40% - 20px);
+                padding-top: 0;
+            }
+
+            .services {
+                grid-template-columns: repeat(3, calc(34% - 10px));
+                grid-template-rows: 100px calc(50% - 50px) calc(50% - 50px);
+                padding: 50px;
+            }
+
+            .services .heading {
+                grid-column: 1/span 3;
+            }
+
+            .project-list {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .contactMe {
+                display: grid;
+                grid-template-columns: 20% 80%;
+                grid-template-rows: 80px calc(25% - 20px) calc(25% - 20px) calc(25% - 20px) calc(25% - 20px);
+                padding: 100px;
+            }
+
+            .contactMe h1 {
+                grid-column: 1/span 3;
+            }
+
+            .contact-info-container {
+                display: contents;
+            }
+
+            .contactMe form {
+                grid-area: 2/2/span 5/span 2;
+                display: grid;
+                grid-template-columns: 50% 50%;
+            }
+
+            .contactMe form h2 {
+                grid-column: 1/span 2;
+            }
+
+            .contactMe form textarea {
+                width: calc(100% - 40px);
+                grid-column: 1/span 2;
+            }
+
+            .contactMe button {
+                grid-column: 1/span 2;
+                width: auto;
+            }
+
+            footer {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .HomeContent h1 {
+                font-size: 3em;
+            }
+
+            .HomeContent h2 {
+                font-size: 2.3em;
+            }
+
+            .HomeContent .heroline {
+                font-size: 1.5rem;
+                padding-right: 50px;
+            }
+
+            .SideImg .bottom-left-corner {
+                left: -50px;
+                bottom: -50px;
+            }
+
+            .SideImg .top-right-corner {
+                right: -50px;
+                top: -50px;
+            }
+
+            .hr1 {
+                width: 150px;
+                height: 10px;
+            }
+
+            .hr2 {
+                width: 10px;
+                height: 120px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .HomeContent h1 {
+                font-size: 1.8em;
+            }
+
+            .HomeContent h2 {
+                font-size: 1.3em;
+            }
+
+            .HomeContent .heroline {
+                font-size: 0.9rem;
+            }
+
+            .buttonGroup button {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+
+            .heading {
+                font-size: 1.8rem;
+            }
+
+            .about-us h3 {
+                font-size: 1rem;
+            }
+
+            .aboutme-deatils {
+                font-size: 0.8rem;
+            }
+
+            .services .service i {
+                font-size: 1.8rem;
+            }
+
+            .service h2 {
+                font-size: 1rem;
+            }
+
+            .service p {
+                font-size: 0.8rem;
+            }
+
+            .project-details h2 {
+                font-size: 1rem;
+            }
+
+            .project-details p {
+                font-size: 0.8rem;
+            }
+
+            .project-link {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+
+            .contactinfo i {
+                font-size: 1.3rem;
+            }
+
+            .contactinfo h3 {
+                font-size: 0.9rem;
+            }
+
+            .contactinfo p {
+                font-size: 0.8rem;
+            }
+
+            .contactMe form h2 {
+                font-size: 1rem;
+            }
+
+            .contactMe form input,
+            .contactMe form textarea {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
@@ -578,6 +873,9 @@
 <body>
     <main>
         <aside>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
             <ul class="Links">
                 <li onclick="Navigate(0)" class="activeLink"><i class="fa-solid fa-house"></i>
                     <p>Home</p>
@@ -717,12 +1015,10 @@
                         <p>Automating data workflows and generating real-time reports using Python, Excel, and SQL.</p>
                     </div>
                 </div>
-                <!-- Projects Slide -->
                 <div class="swiper-slide projects">
                     <h1 class="heading">Projects</h1>
                     <div class="project-list-container">
                         <div class="project-list">
-                            <!-- AI Voice Assistant (JARVIS) -->
                             <div class="project-item">
                                 <div class="project-image">
                                     <img src="https://picsum.photos/200/300?random=7" alt="JARVIS AI Voice Assistant">
@@ -737,7 +1033,6 @@
                                         class="project-link" target="_blank" rel="noopener noreferrer">View Project</a>
                                 </div>
                             </div>
-                            <!-- Amazon Product Analysis Dashboard -->
                             <div class="project-item">
                                 <div class="project-image">
                                     <img src="https://picsum.photos/200/300?random=10" alt="Amazon Analysis Dashboard">
@@ -751,7 +1046,6 @@
                                         target="_blank" rel="noopener noreferrer">View Project</a>
                                 </div>
                             </div>
-                            <!-- Blinkit Analysis Dashboard -->
                             <div class="project-item">
                                 <div class="project-image">
                                     <img src="https://picsum.photos/200/300?random=11" alt="Blinkit Analysis Dashboard">
@@ -765,7 +1059,6 @@
                                         class="project-link" target="_blank" rel="noopener noreferrer">View Project</a>
                                 </div>
                             </div>
-                            <!-- Social Media App -->
                             <div class="project-item">
                                 <div class="project-image">
                                     <img src="https://picsum.photos/200/300?random=9" alt="Social Media App">
@@ -779,7 +1072,6 @@
                                         target="_blank" rel="noopener noreferrer">View Project</a>
                                 </div>
                             </div>
-                            <!-- Advanced Student Score Analyzer -->
                             <div class="project-item">
                                 <div class="project-image">
                                     <img src="https://picsum.photos/200/300?random=13" alt="Student Score Analyzer">
@@ -796,20 +1088,21 @@
                         </div>
                     </div>
                 </div>
-                <!-- Updated Contact Me section with EmailJS -->
                 <div class="swiper-slide contactMe">
                     <h1 class="heading">Contact Me</h1>
-                    <div class="contactinfo"><i class="fa-solid fa-phone"></i>
-                        <h3>Mobile No</h3>
-                        <p>+91843190134</p>
-                    </div>
-                    <div class="contactinfo"><i class="fa-solid fa-location-dot"></i>
-                        <h3>Location</h3>
-                        <p>Greater Noida</p>
-                    </div>
-                    <div class="contactinfo"><i class="fa-regular fa-envelope"></i>
-                        <h3>Email</h3>
-                        <p>abhinavabby9@gmail.com</p>
+                    <div class="contact-info-container">
+                        <div class="contactinfo"><i class="fa-solid fa-phone"></i>
+                            <h3>Mobile No</h3>
+                            <p>+91843190134</p>
+                        </div>
+                        <div class="contactinfo"><i class="fa-solid fa-location-dot"></i>
+                            <h3>Location</h3>
+                            <p>Greater Noida</p>
+                        </div>
+                        <div class="contactinfo"><i class="fa-regular fa-envelope"></i>
+                            <h3>Email</h3>
+                            <p>abhinavabby9@gmail.com</p>
+                        </div>
                     </div>
                     <form id="contactForm" onsubmit="sendEmail(event)">
                         <h2>Send Me A Message
@@ -821,8 +1114,10 @@
                         </h2>
                         <input type="text" name="name" placeholder="Name" required>
                         <input type="email" name="email" placeholder="Email" required>
-                        <textarea name="message" rows="10" placeholder="Type your Message Here..." required></textarea>
-                        <button type="submit" class="primary">Send</button>
+                        <textarea name="message" rows="8" placeholder="Type your Message Here..." required></textarea>
+                        <button type="submit"
+
+ class="primary">Send</button>
                     </form>
                     <footer>
                         <li>Copyright © 2025 ABBY.</li>
@@ -833,84 +1128,97 @@
     </main>
 
     <script>
-        // Initialize EmailJS with your User ID
-        emailjs.init("i65U53N4yTK_YnW1"); // Your EmailJS User ID (Public Key)
-    
-        // Function to send email via EmailJS
+        // Initialize EmailJS
+        emailjs.init("i65U53N4yTK_YnW1");
+
+        // Send email via EmailJS
         function sendEmail(event) {
-            event.preventDefault(); // Prevent default form submission
-    
+            event.preventDefault();
             const form = event.target;
             const name = form.querySelector('input[name="name"]').value;
             const email = form.querySelector('input[name="email"]').value;
             const message = form.querySelector('textarea[name="message"]').value;
-    
-            // Prepare the email parameters
+
             const templateParams = {
                 from_name: name,
                 from_email: email,
                 message: message
             };
-    
-            // Send the email using EmailJS
+
             emailjs.send("service_442mfh", "temp_gechfl0x", templateParams)
                 .then(function(response) {
                     alert("Message sent successfully!");
-                    form.reset(); // Reset the form after successful submission
+                    form.reset();
                 }, function(error) {
                     console.error("EmailJS Error:", error);
                     alert("Failed to send message. Please try again later or contact me directly at abhinavabby9@gmail.com");
                 });
         }
-    
+
         // Initialize Swiper
         var swiper = new Swiper(".swiper", {
             effect: "cube",
-            allowTouchMove: false,
-            grabCursor: false,
+            allowTouchMove: true,
+            grabCursor: true,
             cubeEffect: {
                 shadow: true,
                 slideShadows: true,
                 shadowOffset: 20,
                 shadowScale: 0.94,
             },
-            mousewheel: true,
+            mousewheel: {
+                forceToAxis: true,
+            },
             navigation: {
                 nextEl: ".swiper-button-next",
                 prevEl: ".swiper-button-prev",
             },
         });
-    
-        // Function to navigate to a specific slide
+
+        // Navigate to slide
         function Navigate(index) {
-            // Remove active class from all navigation links
             document.querySelectorAll(".Links li").forEach((link) => link.classList.remove("activeLink"));
-    
-            // Add active class to the clicked navigation link
             document.querySelectorAll(".Links li")[index].classList.add("activeLink");
-    
-            // Slide to the selected index
             swiper.slideTo(index, 1000, true);
+            const links = document.querySelector('.Links');
+            if (links.classList.contains('show')) {
+                links.classList.remove('show');
+            }
         }
-    
-        // Set active link on initial load
+
+        // Toggle mobile menu
+        function toggleMenu() {
+            const links = document.querySelector('.Links');
+            links.classList.toggle('show');
+        }
+
+        // Set initial active link
         document.addEventListener("DOMContentLoaded", function () {
             const initialSlide = swiper.activeIndex;
             Navigate(initialSlide);
         });
-    
+
         // Update active link on slide change
         swiper.on("slideChange", function () {
             const activeIndex = swiper.activeIndex;
             Navigate(activeIndex);
         });
-    
-        // Add keyboard navigation
+
+        // Keyboard navigation
         document.addEventListener("keydown", function (event) {
             if (event.key === "ArrowRight") {
                 swiper.slideNext();
             } else if (event.key === "ArrowLeft") {
                 swiper.slidePrev();
+            }
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const links = document.querySelector('.Links');
+            if (!menuToggle.contains(event.target) && !links.contains(event.target) && links.classList.contains('show')) {
+                links.classList.remove('show');
             }
         });
     </script>
