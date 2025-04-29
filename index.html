@@ -1211,62 +1211,51 @@ const swiper = new Swiper('.swiper-container', {
                 animateSkillBars();
             }
         },
-        slideChangeTransitionStart: function() {
-            updateActiveNavLink(this.activeIndex);
-        },
         slideChangeTransitionEnd: function() {
             updateActiveNavLink(this.activeIndex);
             if (this.activeIndex === 1) {
                 animateSkillBars();
             }
-            closeMobileMenu();
         }
     }
 });
 
-// DOM Elements
-const menuToggle = document.querySelector('.menu-toggle');
-const links = document.querySelector('.Links');
-const menuIcon = document.querySelector('.menu-toggle i');
-
 // Mobile menu functions
 function toggleMenu() {
-    const isExpanded = links.classList.toggle('show');
-    
-    // Update ARIA attributes
-    links.setAttribute('aria-hidden', !isExpanded);
-    menuToggle.setAttribute('aria-expanded', isExpanded);
-    
-    // Toggle between hamburger and close icon
-    if (isExpanded) {
-        menuIcon.classList.replace('fa-bars', 'fa-times');
-    } else {
-        menuIcon.classList.replace('fa-times', 'fa-bars');
-    }
+    const links = document.querySelector('.Links');
+    links.classList.toggle('show');
+    links.setAttribute('aria-hidden', !links.classList.contains('show'));
 }
 
 function closeMobileMenu() {
+    const links = document.querySelector('.Links');
     if (links.classList.contains('show')) {
         links.classList.remove('show');
         links.setAttribute('aria-hidden', 'true');
-        menuToggle.setAttribute('aria-expanded', 'false');
-        menuIcon.classList.replace('fa-times', 'fa-bars');
     }
 }
 
 // Navigation functions
 function Navigate(index) {
-    closeMobileMenu();
-    swiper.slideTo(index, 600);
+    updateActiveNavLink(index);
+    swiper.slideTo(index, 600, () => {
+        closeMobileMenu();
+        if (index === 1) {
+            animateSkillBars();
+        }
+    });
 }
 
 function updateActiveNavLink(index) {
     document.querySelectorAll('.Links li').forEach((li, i) => {
-        li.classList.toggle('activeLink', i === index);
+        li.classList.remove('activeLink');
+        if (i === index) {
+            li.classList.add('activeLink');
+        }
     });
 }
 
-// Skill bars functions
+// Pre-set skill bars to 0 width to avoid rendering delays
 function preSetSkillBars() {
     const skillBars = document.querySelectorAll('.skill-progress');
     skillBars.forEach(bar => {
@@ -1275,13 +1264,14 @@ function preSetSkillBars() {
     });
 }
 
+// Animate skill bars with requestAnimationFrame for smoother timing
 function animateSkillBars() {
     const skillBars = document.querySelectorAll('.skill-progress');
     skillBars.forEach(bar => {
         const targetWidth = bar.getAttribute('data-width') || '0%';
         bar.style.transition = 'none';
         bar.style.width = '0';
-        void bar.offsetWidth; // Trigger reflow
+        void bar.offsetWidth;
         requestAnimationFrame(() => {
             bar.style.transition = 'width 1s ease-in-out';
             bar.style.width = targetWidth;
@@ -1289,7 +1279,16 @@ function animateSkillBars() {
     });
 }
 
-// Touch event handling for mobile swipe
+// Close mobile menu when clicking outside
+document.addEventListener('click', function(event) {
+    const menuToggle = document.querySelector('.menu-toggle');
+    const links = document.querySelector('.Links');
+    if (!menuToggle.contains(event.target) && !links.contains(event.target)) {
+        closeMobileMenu();
+    }
+});
+
+// Improved touch event handling for mobile swipe
 let touchStartX = 0;
 let touchStartTime = 0;
 let isSwiping = false;
@@ -1338,7 +1337,6 @@ function handleSwipe(touchEndX, touchEndTime) {
     }
 }
 
-// Event listeners
 document.addEventListener('touchstart', handleTouchStart, { passive: true });
 document.addEventListener('touchend', handleTouchEnd, { passive: true });
 
@@ -1390,19 +1388,17 @@ async function sendEmail(e) {
     } catch (error) {
         console.error('Failed to send message:', error);
         submitBtn.innerHTML = '<i class="fas fa-times"></i> Error';
-        
-        // Fallback to mailto if EmailJS fails
+        setTimeout(() => {
+            submitBtn.innerHTML = originalBtnText;
+            submitBtn.disabled = false;
+        }, 3000);
+
         const name = document.getElementById('name').value;
         const email = document.getElementById('email').value;
         const message = document.getElementById('message').value;
         const subject = `Message from ${name}`;
         const body = `Name: ${name}%0D%0AEmail: ${email}%0D%0A%0D%0A${message}`;
         window.open(`mailto:abhinavabby9@gmail.com?subject=${subject}&body=${body}`);
-        
-        setTimeout(() => {
-            submitBtn.innerHTML = originalBtnText;
-            submitBtn.disabled = false;
-        }, 3000);
     }
 }
 
@@ -1413,13 +1409,6 @@ document.getElementById('contactForm').addEventListener('input', function(e) {
     const email = form.querySelector('#email').value;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     submitBtn.disabled = !form.checkValidity() || !emailRegex.test(email);
-});
-
-// Close mobile menu when clicking outside
-document.addEventListener('click', function(event) {
-    if (!menuToggle.contains(event.target) && !links.contains(event.target)) {
-        closeMobileMenu();
-    }
 });
 
 // Preload images
@@ -1438,16 +1427,9 @@ function preloadImages() {
     });
 }
 
-// Initialize on DOM load
 document.addEventListener('DOMContentLoaded', () => {
     preloadImages();
     updateActiveNavLink(swiper.activeIndex);
-    
-    // Set initial ARIA attributes
-    menuToggle.setAttribute('aria-expanded', 'false');
-    menuToggle.setAttribute('aria-controls', 'navigation-menu');
-    links.setAttribute('id', 'navigation-menu');
-    links.setAttribute('aria-hidden', 'true');
 });
     </script>
 </body>
