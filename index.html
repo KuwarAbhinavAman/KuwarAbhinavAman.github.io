@@ -1216,10 +1216,6 @@ const swiper = new Swiper('.swiper-container', {
             if (this.activeIndex === 1) {
                 animateSkillBars();
             }
-        },
-        slideChange: function() {
-            // Ensure the active link updates during slide change
-            updateActiveNavLink(this.activeIndex);
         }
     }
 });
@@ -1239,8 +1235,8 @@ function closeMobileMenu() {
     }
 }
 
-// Navigation functions
-function Navigate(index) {
+// Centralized navigation function
+function navigateToSlide(index) {
     updateActiveNavLink(index);
     swiper.slideTo(index, 600, () => {
         closeMobileMenu();
@@ -1322,24 +1318,19 @@ function handleSwipe(touchEndX, touchEndTime) {
     
     if (Math.abs(swipeDistance) > threshold) {
         isSwiping = true;
+        const currentIndex = swiper.activeIndex;
+        let newIndex = currentIndex;
         
         if (swipeDistance > threshold) {
-            swiper.slideNext(600, () => {
-                updateActiveNavLink(swiper.activeIndex);
-                if (swiper.activeIndex === 1) {
-                    animateSkillBars();
-                }
-                isSwiping = false;
-            });
+            newIndex = Math.min(currentIndex + 1, 4); // Max index is 4
         } else if (swipeDistance < -threshold) {
-            swiper.slidePrev(600, () => {
-                updateActiveNavLink(swiper.activeIndex);
-                if (swiper.activeIndex === 1) {
-                    animateSkillBars();
-                }
-                isSwiping = false;
-            });
+            newIndex = Math.max(currentIndex - 1, 0); // Min index is 0
         }
+        
+        if (newIndex !== currentIndex) {
+            navigateToSlide(newIndex);
+        }
+        isSwiping = false;
     }
 }
 
@@ -1348,24 +1339,25 @@ document.addEventListener('touchend', handleTouchEnd, { passive: true });
 
 // Keyboard navigation
 document.addEventListener('keydown', function(e) {
+    const currentIndex = swiper.activeIndex;
+    let newIndex = currentIndex;
+
     if (e.key === 'ArrowRight') {
-        swiper.slideNext(600, () => {
-            updateActiveNavLink(swiper.activeIndex);
-            if (swiper.activeIndex === 1) {
-                animateSkillBars();
-            }
-        });
+        newIndex = Math.min(currentIndex + 1, 4);
     } else if (e.key === 'ArrowLeft') {
-        swiper.slidePrev(600, () => {
-            updateActiveNavLink(swiper.activeIndex);
-            if (swiper.activeIndex === 1) {
-                animateSkillBars();
-            }
-        });
+        newIndex = Math.max(currentIndex - 1, 0);
     } else if (e.key >= '1' && e.key <= '5') {
-        const index = parseInt(e.key) - 1;
-        Navigate(index);
+        newIndex = parseInt(e.key) - 1;
     }
+
+    if (newIndex !== currentIndex) {
+        navigateToSlide(newIndex);
+    }
+});
+
+// Update menu navigation to use centralized function
+document.querySelectorAll('.Links li').forEach((li, index) => {
+    li.onclick = () => navigateToSlide(index);
 });
 
 // Form submission handler
