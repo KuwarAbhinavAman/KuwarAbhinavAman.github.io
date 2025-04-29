@@ -1235,8 +1235,8 @@ function closeMobileMenu() {
     }
 }
 
-// Centralized navigation function
-function navigateToSlide(index) {
+// Navigation functions
+function Navigate(index) {
     updateActiveNavLink(index);
     swiper.slideTo(index, 600, () => {
         closeMobileMenu();
@@ -1318,19 +1318,22 @@ function handleSwipe(touchEndX, touchEndTime) {
     
     if (Math.abs(swipeDistance) > threshold) {
         isSwiping = true;
-        const currentIndex = swiper.activeIndex;
-        let newIndex = currentIndex;
         
         if (swipeDistance > threshold) {
-            newIndex = Math.min(currentIndex + 1, 4); // Max index is 4
+            swiper.slideNext(600, () => {
+                if (swiper.activeIndex === 1) {
+                    animateSkillBars();
+                }
+                isSwiping = false;
+            });
         } else if (swipeDistance < -threshold) {
-            newIndex = Math.max(currentIndex - 1, 0); // Min index is 0
+            swiper.slidePrev(600, () => {
+                if (swiper.activeIndex === 1) {
+                    animateSkillBars();
+                }
+                isSwiping = false;
+            });
         }
-        
-        if (newIndex !== currentIndex) {
-            navigateToSlide(newIndex);
-        }
-        isSwiping = false;
     }
 }
 
@@ -1339,25 +1342,22 @@ document.addEventListener('touchend', handleTouchEnd, { passive: true });
 
 // Keyboard navigation
 document.addEventListener('keydown', function(e) {
-    const currentIndex = swiper.activeIndex;
-    let newIndex = currentIndex;
-
     if (e.key === 'ArrowRight') {
-        newIndex = Math.min(currentIndex + 1, 4);
+        swiper.slideNext(600, () => {
+            if (swiper.activeIndex === 1) {
+                animateSkillBars();
+            }
+        });
     } else if (e.key === 'ArrowLeft') {
-        newIndex = Math.max(currentIndex - 1, 0);
+        swiper.slidePrev(600, () => {
+            if (swiper.activeIndex === 1) {
+                animateSkillBars();
+            }
+        });
     } else if (e.key >= '1' && e.key <= '5') {
-        newIndex = parseInt(e.key) - 1;
+        const index = parseInt(e.key) - 1;
+        Navigate(index);
     }
-
-    if (newIndex !== currentIndex) {
-        navigateToSlide(newIndex);
-    }
-});
-
-// Update menu navigation to use centralized function
-document.querySelectorAll('.Links li').forEach((li, index) => {
-    li.onclick = () => navigateToSlide(index);
 });
 
 // Form submission handler
