@@ -1216,6 +1216,10 @@ const swiper = new Swiper('.swiper-container', {
             if (this.activeIndex === 1) {
                 animateSkillBars();
             }
+        },
+        slideChange: function() {
+            // Ensure the active link updates during slide change
+            updateActiveNavLink(this.activeIndex);
         }
     }
 });
@@ -1321,6 +1325,7 @@ function handleSwipe(touchEndX, touchEndTime) {
         
         if (swipeDistance > threshold) {
             swiper.slideNext(600, () => {
+                updateActiveNavLink(swiper.activeIndex);
                 if (swiper.activeIndex === 1) {
                     animateSkillBars();
                 }
@@ -1328,6 +1333,7 @@ function handleSwipe(touchEndX, touchEndTime) {
             });
         } else if (swipeDistance < -threshold) {
             swiper.slidePrev(600, () => {
+                updateActiveNavLink(swiper.activeIndex);
                 if (swiper.activeIndex === 1) {
                     animateSkillBars();
                 }
@@ -1344,12 +1350,14 @@ document.addEventListener('touchend', handleTouchEnd, { passive: true });
 document.addEventListener('keydown', function(e) {
     if (e.key === 'ArrowRight') {
         swiper.slideNext(600, () => {
+            updateActiveNavLink(swiper.activeIndex);
             if (swiper.activeIndex === 1) {
                 animateSkillBars();
             }
         });
     } else if (e.key === 'ArrowLeft') {
         swiper.slidePrev(600, () => {
+            updateActiveNavLink(swiper.activeIndex);
             if (swiper.activeIndex === 1) {
                 animateSkillBars();
             }
