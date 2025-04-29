@@ -1206,29 +1206,16 @@ const swiper = new Swiper('.swiper-container', {
     on: {
         init: function() {
             updateActiveNavLink(this.activeIndex);
-            // Pre-set skill bars to 0 width on page load
             preSetSkillBars();
-            // Trigger animation if starting on the About slide
-            if (this.activeIndex === 1) {
-                setTimeout(() => animateSkillBars(), 100); // Small delay to ensure rendering
-            }
-        },
-        slideChangeTransitionEnd: function() {
-            updateActiveNavLink(this.activeIndex);
-            // Trigger animation after the slide transition completes
             if (this.activeIndex === 1) {
                 animateSkillBars();
             }
         },
-        touchStart: function() {
-            document.removeEventListener('touchstart', handleTouchStart);
-            document.removeEventListener('touchend', handleTouchEnd);
-        },
-        touchEnd: function() {
-            setTimeout(() => {
-                document.addEventListener('touchstart', handleTouchStart, { passive: true });
-                document.addEventListener('touchend', handleTouchEnd, { passive: true });
-            }, 100);
+        slideChangeTransitionEnd: function() {
+            updateActiveNavLink(this.activeIndex);
+            if (this.activeIndex === 1) {
+                animateSkillBars();
+            }
         }
     }
 });
@@ -1242,22 +1229,30 @@ function toggleMenu() {
 
 function closeMobileMenu() {
     const links = document.querySelector('.Links');
-    links.classList.remove('show');
-    links.setAttribute('aria-hidden', 'true');
+    if (links.classList.contains('show')) {
+        links.classList.remove('show');
+        links.setAttribute('aria-hidden', 'true');
+    }
 }
 
 // Navigation functions
 function Navigate(index) {
     updateActiveNavLink(index);
-    swiper.slideTo(index, 600);
-    closeMobileMenu();
+    swiper.slideTo(index, 600, () => {
+        closeMobileMenu();
+        if (index === 1) {
+            animateSkillBars();
+        }
+    });
 }
 
 function updateActiveNavLink(index) {
-    document.querySelectorAll('.Links li').forEach(li => {
+    document.querySelectorAll('.Links li').forEach((li, i) => {
         li.classList.remove('activeLink');
+        if (i === index) {
+            li.classList.add('activeLink');
+        }
     });
-    document.querySelectorAll('.Links li')[index].classList.add('activeLink');
 }
 
 // Pre-set skill bars to 0 width to avoid rendering delays
@@ -1274,12 +1269,9 @@ function animateSkillBars() {
     const skillBars = document.querySelectorAll('.skill-progress');
     skillBars.forEach(bar => {
         const targetWidth = bar.getAttribute('data-width') || '0%';
-        // Reset width immediately
         bar.style.transition = 'none';
         bar.style.width = '0';
-        // Force a reflow
         void bar.offsetWidth;
-        // Use requestAnimationFrame to start the animation
         requestAnimationFrame(() => {
             bar.style.transition = 'width 1s ease-in-out';
             bar.style.width = targetWidth;
@@ -1328,14 +1320,20 @@ function handleSwipe(touchEndX, touchEndTime) {
         isSwiping = true;
         
         if (swipeDistance > threshold) {
-            swiper.slideNext(600);
+            swiper.slideNext(600, () => {
+                if (swiper.activeIndex === 1) {
+                    animateSkillBars();
+                }
+                isSwiping = false;
+            });
         } else if (swipeDistance < -threshold) {
-            swiper.slidePrev(600);
+            swiper.slidePrev(600, () => {
+                if (swiper.activeIndex === 1) {
+                    animateSkillBars();
+                }
+                isSwiping = false;
+            });
         }
-        
-        setTimeout(() => {
-            isSwiping = false;
-        }, 600);
     }
 }
 
@@ -1345,9 +1343,17 @@ document.addEventListener('touchend', handleTouchEnd, { passive: true });
 // Keyboard navigation
 document.addEventListener('keydown', function(e) {
     if (e.key === 'ArrowRight') {
-        swiper.slideNext(600);
+        swiper.slideNext(600, () => {
+            if (swiper.activeIndex === 1) {
+                animateSkillBars();
+            }
+        });
     } else if (e.key === 'ArrowLeft') {
-        swiper.slidePrev(600);
+        swiper.slidePrev(600, () => {
+            if (swiper.activeIndex === 1) {
+                animateSkillBars();
+            }
+        });
     } else if (e.key >= '1' && e.key <= '5') {
         const index = parseInt(e.key) - 1;
         Navigate(index);
