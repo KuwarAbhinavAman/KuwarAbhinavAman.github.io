@@ -1176,7 +1176,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script>
         
-  // Initialize EmailJS
+ // Initialize EmailJS
 (function() {
     emailjs.init("i65U53N4yTK_YnW1");
 })();
@@ -1198,14 +1198,18 @@ const swiper = new Swiper('.swiper-container', {
     grabCursor: true,
     resistanceRatio: 0.7,
     touchRatio: 1,
-    speed: 600, // Slightly slower for better feel
-    threshold: 30, // Increased minimum swipe distance
-    shortSwipes: false, // Disable short swipes
-    longSwipesRatio: 0.3, // Require longer swipe to change slide
-    followFinger: false, // Don't follow finger during swipe (better for 1:1 swipe)
+    speed: 600,
+    threshold: 30,
+    shortSwipes: false,
+    longSwipesRatio: 0.3,
+    followFinger: false,
     on: {
         init: function() {
             updateActiveNavLink(this.activeIndex);
+            // Trigger skill bar animation if starting on the About slide (index 1)
+            if (this.activeIndex === 1) {
+                animateSkillBars();
+            }
         },
         slideChange: function() {
             updateActiveNavLink(this.activeIndex);
@@ -1214,12 +1218,10 @@ const swiper = new Swiper('.swiper-container', {
             }
         },
         touchStart: function() {
-            // Disable our custom touch handling when Swiper is active
             document.removeEventListener('touchstart', handleTouchStart);
             document.removeEventListener('touchend', handleTouchEnd);
         },
         touchEnd: function() {
-            // Re-enable our custom touch handling after Swiper finishes
             setTimeout(() => {
                 document.addEventListener('touchstart', handleTouchStart, { passive: true });
                 document.addEventListener('touchend', handleTouchEnd, { passive: true });
@@ -1260,8 +1262,13 @@ function animateSkillBars() {
     const skillBars = document.querySelectorAll('.skill-progress');
     skillBars.forEach(bar => {
         const targetWidth = bar.getAttribute('data-width') || '0%';
+        // Ensure the bar starts at 0 width
+        bar.style.transition = 'none'; // Disable transition for the reset
         bar.style.width = '0';
+        // Force a reflow to ensure the reset takes effect
         void bar.offsetWidth;
+        // Re-enable transition and set the target width
+        bar.style.transition = 'width 1s ease-in-out';
         bar.style.width = targetWidth;
     });
 }
@@ -1296,29 +1303,28 @@ function handleTouchEnd(e) {
 }
 
 function handleSwipe(touchEndX, touchEndTime) {
-    const threshold = 50; // Minimum swipe distance
-    const timeThreshold = 300; // Maximum swipe duration (ms)
+    const threshold = 50;
+    const timeThreshold = 300;
     const swipeDistance = touchStartX - touchEndX;
     const swipeDuration = touchEndTime - touchStartTime;
 
-    if (swipeDuration > timeThreshold) return; // Too slow, ignore
+    if (swipeDuration > timeThreshold) return;
     
     if (Math.abs(swipeDistance) > threshold) {
         isSwiping = true;
         
         if (swipeDistance > threshold) {
-            swiper.slideNext(600); // Swipe right to left (next slide)
+            swiper.slideNext(600);
         } else if (swipeDistance < -threshold) {
-            swiper.slidePrev(600); // Swipe left to right (prev slide)
+            swiper.slidePrev(600);
         }
         
         setTimeout(() => {
             isSwiping = false;
-        }, 600); // Match Swiper transition duration
+        }, 600);
     }
 }
 
-// Add touch event listeners
 document.addEventListener('touchstart', handleTouchStart, { passive: true });
 document.addEventListener('touchend', handleTouchEnd, { passive: true });
 
