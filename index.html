@@ -1176,7 +1176,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script>
         
- // Initialize EmailJS
+// Initialize EmailJS
 (function() {
     emailjs.init("i65U53N4yTK_YnW1");
 })();
@@ -1206,13 +1206,16 @@ const swiper = new Swiper('.swiper-container', {
     on: {
         init: function() {
             updateActiveNavLink(this.activeIndex);
-            // Trigger skill bar animation if starting on the About slide (index 1)
+            // Pre-set skill bars to 0 width on page load
+            preSetSkillBars();
+            // Trigger animation if starting on the About slide
             if (this.activeIndex === 1) {
-                animateSkillBars();
+                setTimeout(() => animateSkillBars(), 100); // Small delay to ensure rendering
             }
         },
-        slideChange: function() {
+        slideChangeTransitionEnd: function() {
             updateActiveNavLink(this.activeIndex);
+            // Trigger animation after the slide transition completes
             if (this.activeIndex === 1) {
                 animateSkillBars();
             }
@@ -1257,19 +1260,30 @@ function updateActiveNavLink(index) {
     document.querySelectorAll('.Links li')[index].classList.add('activeLink');
 }
 
-// Animate skill bars
+// Pre-set skill bars to 0 width to avoid rendering delays
+function preSetSkillBars() {
+    const skillBars = document.querySelectorAll('.skill-progress');
+    skillBars.forEach(bar => {
+        bar.style.transition = 'none';
+        bar.style.width = '0';
+    });
+}
+
+// Animate skill bars with requestAnimationFrame for smoother timing
 function animateSkillBars() {
     const skillBars = document.querySelectorAll('.skill-progress');
     skillBars.forEach(bar => {
         const targetWidth = bar.getAttribute('data-width') || '0%';
-        // Ensure the bar starts at 0 width
-        bar.style.transition = 'none'; // Disable transition for the reset
+        // Reset width immediately
+        bar.style.transition = 'none';
         bar.style.width = '0';
-        // Force a reflow to ensure the reset takes effect
+        // Force a reflow
         void bar.offsetWidth;
-        // Re-enable transition and set the target width
-        bar.style.transition = 'width 1s ease-in-out';
-        bar.style.width = targetWidth;
+        // Use requestAnimationFrame to start the animation
+        requestAnimationFrame(() => {
+            bar.style.transition = 'width 1s ease-in-out';
+            bar.style.width = targetWidth;
+        });
     });
 }
 
