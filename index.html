@@ -1184,7 +1184,7 @@
 // Initialize Swiper with improved touch handling
 const swiper = new Swiper('.swiper-container', {
     direction: 'horizontal',
-    loop: true,
+    loop: false,
     mousewheel: {
         forceToAxis: true,
         sensitivity: 0.7
@@ -1198,23 +1198,22 @@ const swiper = new Swiper('.swiper-container', {
     grabCursor: true,
     resistanceRatio: 0.7,
     touchRatio: 1,
-    speed: 800,
+    speed: 600,
     threshold: 30,
     shortSwipes: false,
     longSwipesRatio: 0.3,
     followFinger: false,
     on: {
         init: function() {
-            updateActiveNavLink(this.realIndex);
+            updateActiveNavLink(this.activeIndex);
             preSetSkillBars();
-            if (this.realIndex === 1) {
+            if (this.activeIndex === 1) {
                 animateSkillBars();
             }
         },
-        slideChange: function() {
-            updateActiveNavLink(this.realIndex);
-            closeMobileMenu();
-            if (this.realIndex === 1) {
+        slideChangeTransitionEnd: function() {
+            updateActiveNavLink(this.activeIndex);
+            if (this.activeIndex === 1) {
                 animateSkillBars();
             }
         }
@@ -1239,7 +1238,7 @@ function closeMobileMenu() {
 // Navigation functions
 function Navigate(index) {
     updateActiveNavLink(index);
-    swiper.slideToLoop(index, 800, () => {
+    swiper.slideTo(index, 600, () => {
         closeMobileMenu();
         if (index === 1) {
             animateSkillBars();
@@ -1321,17 +1320,15 @@ function handleSwipe(touchEndX, touchEndTime) {
         isSwiping = true;
         
         if (swipeDistance > threshold) {
-            swiper.slideNext(800, () => {
-                updateActiveNavLink(swiper.realIndex);
-                if (swiper.realIndex === 1) {
+            swiper.slideNext(600, () => {
+                if (swiper.activeIndex === 1) {
                     animateSkillBars();
                 }
                 isSwiping = false;
             });
         } else if (swipeDistance < -threshold) {
-            swiper.slidePrev(800, () => {
-                updateActiveNavLink(swiper.realIndex);
-                if (swiper.realIndex === 1) {
+            swiper.slidePrev(600, () => {
+                if (swiper.activeIndex === 1) {
                     animateSkillBars();
                 }
                 isSwiping = false;
@@ -1346,16 +1343,14 @@ document.addEventListener('touchend', handleTouchEnd, { passive: true });
 // Keyboard navigation
 document.addEventListener('keydown', function(e) {
     if (e.key === 'ArrowRight') {
-        swiper.slideNext(800, () => {
-            updateActiveNavLink(swiper.realIndex);
-            if (swiper.realIndex === 1) {
+        swiper.slideNext(600, () => {
+            if (swiper.activeIndex === 1) {
                 animateSkillBars();
             }
         });
     } else if (e.key === 'ArrowLeft') {
-        swiper.slidePrev(800, () => {
-            updateActiveNavLink(swiper.realIndex);
-            if (swiper.realIndex === 1) {
+        swiper.slidePrev(600, () => {
+            if (swiper.activeIndex === 1) {
                 animateSkillBars();
             }
         });
@@ -1420,7 +1415,7 @@ document.getElementById('contactForm').addEventListener('input', function(e) {
 function preloadImages() {
     const images = [
         'image.jpeg',
-alda        'https://picsum.photos/600/400?random=1',
+        'https://picsum.photos/600/400?random=1',
         'https://picsum.photos/600/400?random=2',
         'https://picsum.photos/600/400?random=3',
         'https://picsum.photos/600/400?random=4',
@@ -1434,7 +1429,7 @@ alda        'https://picsum.photos/600/400?random=1',
 
 document.addEventListener('DOMContentLoaded', () => {
     preloadImages();
-    updateActiveNavLink(swiper.realIndex);
+    updateActiveNavLink(swiper.activeIndex);
 });
     </script>
 </body>
