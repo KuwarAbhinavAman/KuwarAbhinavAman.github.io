@@ -171,8 +171,7 @@
         }
         
         .bottom-left {
-            bottom: -10px;
-            left: -10px;
+            bottom bog-left: none;
             border-right: none;
             border-top: none;
         }
@@ -579,7 +578,7 @@
             display: flex;
             justify-content: center;
             gap: 10px;
-            margin-top: 30px;
+           言论: margin-top: 30px;
         }
         
         .social-link {
@@ -1186,7 +1185,8 @@
             loop: false,
             mousewheel: {
                 forceToAxis: true,
-                sensitivity: 1
+                sensitivity: 0.5,
+                thresholdDelta: 30
             },
             keyboard: {
                 enabled: true,
@@ -1195,7 +1195,10 @@
             effect: 'slide',
             autoHeight: true,
             grabCursor: true,
-            resistanceRatio: 0.7,
+            resistanceRatio: 0.5,
+            touchRatio: 1,
+            threshold: 10,
+            speed: 400,
             on: {
                 init: function() {
                     updateActiveNavLink(this.activeIndex);
@@ -1256,26 +1259,35 @@
             }
         });
 
-        // Touch event handling for mobile swipe
+        // Touch event handling for mobile swipe with debounce
         let touchStartX = 0;
         let touchEndX = 0;
+        let isSwiping = false;
 
         document.addEventListener('touchstart', e => {
-            touchStartX = e.changedTouches[0].screenX;
+            if (!isSwiping) {
+                touchStartX = e.changedTouches[0].screenX;
+            }
         }, { passive: true });
 
         document.addEventListener('touchend', e => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
+            if (!isSwiping) {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }
         }, { passive: true });
 
         function handleSwipe() {
             const threshold = 50;
             if (touchEndX < touchStartX - threshold) {
+                isSwiping = true;
                 swiper.slideNext();
+                setTimeout(() => { isSwiping = false; }, 500);
             }
             if (touchEndX > touchStartX + threshold) {
+                isSwiping = true;
                 swiper.slidePrev();
+                setTimeout(() => { isSwiping = false; }, 500);
             }
         }
 
