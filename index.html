@@ -1176,18 +1176,18 @@
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script>
         
-    // Initialize EmailJS
+  // Initialize EmailJS
 (function() {
     emailjs.init("i65U53N4yTK_YnW1");
 })();
 
-// Initialize Swiper
+// Initialize Swiper with improved touch handling
 const swiper = new Swiper('.swiper-container', {
     direction: 'horizontal',
     loop: false,
     mousewheel: {
         forceToAxis: true,
-        sensitivity: 0.5 // Reduced sensitivity for smoother control
+        sensitivity: 0.7
     },
     keyboard: {
         enabled: true,
@@ -1196,10 +1196,13 @@ const swiper = new Swiper('.swiper-container', {
     effect: 'slide',
     autoHeight: true,
     grabCursor: true,
-    resistanceRatio: 0.85, // Slightly increased for smoother resistance
-    touchRatio: 1, // Normalized touch response
-    speed: 400, // Smoother transition speed
-    threshold: 10, // Minimum swipe distance to trigger slide change
+    resistanceRatio: 0.7,
+    touchRatio: 1,
+    speed: 600, // Slightly slower for better feel
+    threshold: 30, // Increased minimum swipe distance
+    shortSwipes: false, // Disable short swipes
+    longSwipesRatio: 0.3, // Require longer swipe to change slide
+    followFinger: false, // Don't follow finger during swipe (better for 1:1 swipe)
     on: {
         init: function() {
             updateActiveNavLink(this.activeIndex);
@@ -1209,6 +1212,18 @@ const swiper = new Swiper('.swiper-container', {
             if (this.activeIndex === 1) {
                 animateSkillBars();
             }
+        },
+        touchStart: function() {
+            // Disable our custom touch handling when Swiper is active
+            document.removeEventListener('touchstart', handleTouchStart);
+            document.removeEventListener('touchend', handleTouchEnd);
+        },
+        touchEnd: function() {
+            // Re-enable our custom touch handling after Swiper finishes
+            setTimeout(() => {
+                document.addEventListener('touchstart', handleTouchStart, { passive: true });
+                document.addEventListener('touchend', handleTouchEnd, { passive: true });
+            }, 100);
         }
     }
 });
@@ -1229,7 +1244,7 @@ function closeMobileMenu() {
 // Navigation functions
 function Navigate(index) {
     updateActiveNavLink(index);
-    swiper.slideTo(index);
+    swiper.slideTo(index, 600);
     closeMobileMenu();
 }
 
@@ -1260,48 +1275,59 @@ document.addEventListener('click', function(event) {
     }
 });
 
-// Touch event handling for mobile swipe
+// Improved touch event handling for mobile swipe
 let touchStartX = 0;
-let touchEndX = 0;
+let touchStartTime = 0;
 let isSwiping = false;
 
-document.addEventListener('touchstart', e => {
+function handleTouchStart(e) {
     if (!isSwiping) {
         touchStartX = e.changedTouches[0].screenX;
-    }
-}, { passive: true });
-
-document.addEventListener('touchend', e => {
-    if (!isSwiping) {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    }
-}, { passive: true });
-
-function handleSwipe() {
-    const threshold = 50; // Minimum swipe distance
-    const swipeDistance = touchStartX - touchEndX;
-
-    if (Math.abs(swipeDistance) > threshold) {
-        isSwiping = true; // Prevent multiple rapid swipes
-        if (swipeDistance > 0) {
-            swiper.slideNext(); // Swipe right (next slide)
-        } else {
-            swiper.slidePrev(); // Swipe left (previous slide)
-        }
-        // Reset swipe flag after transition
-        setTimeout(() => {
-            isSwiping = false;
-        }, 400); // Match Swiper speed
+        touchStartTime = Date.now();
     }
 }
+
+function handleTouchEnd(e) {
+    if (!isSwiping) {
+        const touchEndX = e.changedTouches[0].screenX;
+        const touchEndTime = Date.now();
+        handleSwipe(touchEndX, touchEndTime);
+    }
+}
+
+function handleSwipe(touchEndX, touchEndTime) {
+    const threshold = 50; // Minimum swipe distance
+    const timeThreshold = 300; // Maximum swipe duration (ms)
+    const swipeDistance = touchStartX - touchEndX;
+    const swipeDuration = touchEndTime - touchStartTime;
+
+    if (swipeDuration > timeThreshold) return; // Too slow, ignore
+    
+    if (Math.abs(swipeDistance) > threshold) {
+        isSwiping = true;
+        
+        if (swipeDistance > threshold) {
+            swiper.slideNext(600); // Swipe right to left (next slide)
+        } else if (swipeDistance < -threshold) {
+            swiper.slidePrev(600); // Swipe left to right (prev slide)
+        }
+        
+        setTimeout(() => {
+            isSwiping = false;
+        }, 600); // Match Swiper transition duration
+    }
+}
+
+// Add touch event listeners
+document.addEventListener('touchstart', handleTouchStart, { passive: true });
+document.addEventListener('touchend', handleTouchEnd, { passive: true });
 
 // Keyboard navigation
 document.addEventListener('keydown', function(e) {
     if (e.key === 'ArrowRight') {
-        swiper.slideNext();
+        swiper.slideNext(600);
     } else if (e.key === 'ArrowLeft') {
-        swiper.slidePrev();
+        swiper.slidePrev(600);
     } else if (e.key >= '1' && e.key <= '5') {
         const index = parseInt(e.key) - 1;
         Navigate(index);
