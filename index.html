@@ -3,11 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio of Kuwar Abhinav Aman, Data Analyst and Web Developer">
+    <meta name="keywords" content="data analyst, web developer, portfolio, Kuwar Abhinav Aman">
+    <meta name="author" content="Kuwar Abhinav Aman">
     <title>Kuwar Abhinav Aman - Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <style>
         /* ===== Base Styles ===== */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
         :root {
             --primary: #80ed99;
             --dark: #212529;
@@ -27,6 +32,9 @@
             color: var(--light);
             overflow-x: hidden;
             min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            touch-action: manipulation;
         }
         
         /* ===== Layout Structure ===== */
@@ -47,6 +55,7 @@
             align-items: center;
             padding: 0 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
         }
         
         .logo {
@@ -88,6 +97,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.95rem;
         }
         
         .Links li:hover {
@@ -115,6 +125,8 @@
             overflow-y: auto;
             padding: 30px 20px;
             -webkit-overflow-scrolling: touch;
+            max-width: 100vw;
+            overflow-x: hidden;
         }
         
         /* ===== Home Section ===== */
@@ -125,12 +137,15 @@
             justify-content: center;
             height: 100%;
             text-align: center;
+            padding: 20px;
         }
         
         .profile-container {
             position: relative;
-            width: 250px;
-            margin: 0 auto 30px;
+            width: 200px;
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
         }
         
         .profile-img {
@@ -143,33 +158,33 @@
         
         .corner-decoration {
             position: absolute;
-            width: 40px;
-            height: 40px;
+            width: 30px;
+            height: 30px;
             border: 2px solid var(--primary);
         }
         
         .top-right {
-            top: -15px;
-            right: -15px;
+            top: -10px;
+            right: -10px;
             border-left: none;
             border-bottom: none;
         }
         
         .bottom-left {
-            bottom: -15px;
-            left: -15px;
+            bottom: -10px;
+            left: -10px;
             border-right: none;
             border-top: none;
         }
         
         .intro-text h1 {
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             margin-bottom: 10px;
             line-height: 1.2;
         }
         
         .intro-text h2 {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             margin-bottom: 20px;
             font-weight: 400;
         }
@@ -185,8 +200,10 @@
         
         .hero-description {
             max-width: 600px;
-            margin: 0 auto 30px;
+            margin: 0 auto 20px;
             line-height: 1.6;
+            font-size: 0.9rem;
+            padding: 0 10px;
         }
         
         .action-buttons {
@@ -197,7 +214,7 @@
         }
         
         .btn {
-            padding: 12px 25px;
+            padding: 10px 20px;
             border-radius: 5px;
             font-weight: 600;
             cursor: pointer;
@@ -206,6 +223,7 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            font-size: 0.9rem;
         }
         
         .btn-primary {
@@ -230,8 +248,8 @@
             transform: translateY(-3px);
         }
         
-        .scroll-hint {
-            margin-top: 40px;
+        .slide-hint {
+            margin-top: 20px;
             color: var(--primary);
             display: flex;
             align-items: center;
@@ -273,8 +291,8 @@
             border-radius: 10px;
             padding: 20px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
+            grid-template-columns: 1fr;
+            gap: 10px;
         }
         
         .info-item {
@@ -290,11 +308,11 @@
         .skills-container {
             background: rgba(0,0,0,0.2);
             border-radius: 10px;
-            padding: 20px;
+            padding: 15px;
         }
         
         .skill-item {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         .skill-header {
@@ -330,8 +348,8 @@
         /* ===== Services Section ===== */
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
+            grid-template-columns: 1fr;
+            gap: 20px;
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -339,7 +357,7 @@
         .service-card {
             background: rgba(0,0,0,0.2);
             border-radius: 10px;
-            padding: 30px;
+            padding: 20px;
             text-align: center;
             transition: all 0.3s ease;
             border: 1px solid rgba(255,255,255,0.1);
@@ -385,8 +403,8 @@
         
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
+            grid-template-columns: 1fr;
+            gap: 20px;
         }
         
         .project-card {
@@ -403,7 +421,7 @@
         }
         
         .project-image {
-            height: 200px;
+            height: 180px;
             overflow: hidden;
         }
         
@@ -419,7 +437,7 @@
         }
         
         .project-details {
-            padding: 20px;
+            padding: 15px;
         }
         
         .project-title {
@@ -461,8 +479,8 @@
         
         .contact-info {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: 1fr;
+            gap: 15px;
             margin-bottom: 30px;
         }
         
@@ -498,7 +516,7 @@
         .contact-form {
             background: rgba(0,0,0,0.2);
             border-radius: 10px;
-            padding: 30px;
+            padding: 20px;
             margin-top: auto;
         }
         
@@ -514,13 +532,14 @@
         
         .form-control {
             width: 100%;
-            padding: 12px 15px;
+            padding: 10px 12px;
             background: rgba(255,255,255,0.1);
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 5px;
             color: white;
             font-family: 'Poppins', sans-serif;
             transition: all 0.3s ease;
+            font-size: 0.9rem;
         }
         
         .form-control:focus {
@@ -530,7 +549,7 @@
         }
         
         textarea.form-control {
-            min-height: 150px;
+            min-height: 120px;
             resize: vertical;
         }
         
@@ -538,7 +557,7 @@
             background: var(--primary);
             color: var(--dark);
             border: none;
-            padding: 12px 30px;
+            padding: 12px;
             border-radius: 5px;
             font-weight: 600;
             cursor: pointer;
@@ -546,6 +565,8 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            width: 100%;
+            font-size: 0.95rem;
         }
         
         .submit-btn:hover {
@@ -557,13 +578,13 @@
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 10px;
             margin-top: 30px;
         }
         
         .social-link {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             background: rgba(0,0,0,0.2);
             display: flex;
@@ -571,6 +592,7 @@
             justify-content: center;
             color: var(--primary);
             transition: all 0.3s ease;
+            font-size: 1.1rem;
         }
         
         .social-link:hover {
@@ -582,9 +604,9 @@
         /* ===== Footer ===== */
         footer {
             text-align: center;
-            padding: 20px;
+            padding: 15px;
             color: rgba(255,255,255,0.6);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             margin-top: auto;
         }
         
@@ -619,6 +641,7 @@
             .Links li {
                 padding: 15px 25px;
                 border-bottom: none;
+                font-size: 1rem;
             }
             
             .swiper-container {
@@ -646,7 +669,7 @@
                 order: 1;
             }
             
-            .scroll-hint {
+            .slide-hint {
                 position: absolute;
                 bottom: 40px;
                 left: 50px;
@@ -658,46 +681,107 @@
             
             .personal-info {
                 width: 60%;
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             }
             
             .skills-container {
                 width: 40%;
             }
+            
+            .services-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+            
+            .projects-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+            
+            .contact-info {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            
+            .submit-btn {
+                width: auto;
+            }
         }
         
-        @media (max-width: 480px) {
+        @media (max-width: 360px) {
+            .logo {
+                font-size: 1rem;
+            }
+            
+            .menu-toggle {
+                font-size: 1.3rem;
+            }
+            
+            .profile-container {
+                width: 180px;
+            }
+            
             .intro-text h1 {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
             }
             
             .intro-text h2 {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
             }
             
             .hero-description {
-                font-size: 0.9rem;
-            }
-            
-            .btn {
-                padding: 10px 20px;
-                font-size: 0.9rem;
+                font-size: 0.85rem;
             }
             
             .section-title {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
             }
             
             .about-header h3 {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
             }
             
-            .service-card {
-                padding: 20px;
+            .form-control {
+                font-size: 0.85rem;
+            }
+        }
+        
+        @media (min-width: 360px) and (max-width: 767px) {
+            .profile-container {
+                width: 220px;
             }
             
-            .project-card {
-                max-width: 100%;
+            .intro-text h1 {
+                font-size: 2rem;
             }
+            
+            .intro-text h2 {
+                font-size: 1.4rem;
+            }
+            
+            .services-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+            
+            .projects-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+            
+            .contact-info {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+        
+        @media (hover: none) {
+            input, textarea, select {
+                font-size: 16px;
+            }
+        }
+        
+        /* Focus styles for accessibility */
+        .btn:focus,
+        .form-control:focus,
+        .social-link:focus,
+        .Links li:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
         }
     </style>
 </head>
@@ -706,10 +790,10 @@
     <main>
         <aside>
             <div class="logo">ABBY</div>
-            <div class="menu-toggle" onclick="toggleMenu()">
+            <div class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle navigation menu" role="button">
                 <i class="fas fa-bars"></i>
             </div>
-            <ul class="Links">
+            <ul class="Links" aria-hidden="true">
                 <li onclick="Navigate(0)" class="activeLink">
                     <i class="fas fa-home"></i>
                     <span>Home</span>
@@ -759,8 +843,8 @@
                             <img src="image.jpeg" alt="Kuwar Abhinav Aman" class="profile-img">
                             <div class="corner-decoration bottom-left"></div>
                         </div>
-                        <p class="scroll-hint">
-                            Scroll for more <i class="fas fa-chevron-down fa-shake"></i>
+                        <p class="slide-hint">
+                            Slide right for more <i class="fas fa-chevron-right fa-shake"></i>
                         </p>
                     </div>
                 </div>
@@ -938,7 +1022,7 @@
                         <div class="projects-grid">
                             <div class="project-card">
                                 <div class="project-image">
-                                    <img src="https://picsum.photos/600/400?random=1" alt="JARVIS AI Voice Assistant">
+                                    <img src="https://picsum.photos/600/400?random=1" alt="JARVIS AI Voice Assistant" loading="lazy">
                                 </div>
                                 <div class="project-details">
                                     <h3 class="project-title">JARVIS AI Voice Assistant</h3>
@@ -954,7 +1038,7 @@
                             </div>
                             <div class="project-card">
                                 <div class="project-image">
-                                    <img src="https://picsum.photos/600/400?random=2" alt="Amazon Analysis Dashboard">
+                                    <img src="https://picsum.photos/600/400?random=2" alt="Amazon Analysis Dashboard" loading="lazy">
                                 </div>
                                 <div class="project-details">
                                     <h3 class="project-title">Amazon Product Analysis</h3>
@@ -970,7 +1054,7 @@
                             </div>
                             <div class="project-card">
                                 <div class="project-image">
-                                    <img src="https://picsum.photos/600/400?random=3" alt="Blinkit Analysis Dashboard">
+                                    <img src="https://picsum.photos/600/400?random=3" alt="Blinkit Analysis Dashboard" loading="lazy">
                                 </div>
                                 <div class="project-details">
                                     <h3 class="project-title">Blinkit Analysis Dashboard</h3>
@@ -986,7 +1070,7 @@
                             </div>
                             <div class="project-card">
                                 <div class="project-image">
-                                    <img src="https://picsum.photos/600/400?random=4" alt="Social Media App">
+                                    <img src="https://picsum.photos/600/400?random=4" alt="Social Media App" loading="lazy">
                                 </div>
                                 <div class="project-details">
                                     <h3 class="project-title">Social Media Application</h3>
@@ -994,7 +1078,7 @@
                                         A Django-based social media platform featuring user authentication, real-time
                                         chat functionality, and post creation.
                                     </p>
-                                    <a href="https://github.com/KuwarAbhinavAman/sccial_media_app" 
+                                    <a href="https://github.com/KuwarAbhinavAman/social_media_app" 
                                        class="project-link" target="_blank" rel="noopener noreferrer">
                                         View Project
                                     </a>
@@ -1002,7 +1086,7 @@
                             </div>
                             <div class="project-card">
                                 <div class="project-image">
-                                    <img src="https://picsum.photos/600/400?random=5" alt="Student Score Analyzer">
+                                    <img src="https://picsum.photos/600/400?random=5" alt="Student Score Analyzer" loading="lazy">
                                 </div>
                                 <div class="project-details">
                                     <h3 class="project-title">Student Score Analyzer</h3>
@@ -1079,7 +1163,7 @@
                             </a>
                         </div>
                         <footer>
-                            <p>&copy; 2024 Kuwar Abhinav Aman. All rights reserved.</p>
+                            <p>© 2024 Kuwar Abhinav Aman. All rights reserved.</p>
                         </footer>
                     </div>
                 </div>
@@ -1089,189 +1173,195 @@
 
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-<script>
-    // Initialize EmailJS
-    (function() {
-        emailjs.init("i65U53N4yTK_YnW1");
-    })();
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+        // Initialize EmailJS
+        (function() {
+            emailjs.init("i65U53N4yTK_YnW1");
+        })();
 
-    // Initialize Swiper
-    const swiper = new Swiper('.swiper-container', {
-        direction: 'horizontal',
-        loop: false,
-        mousewheel: {
-            forceToAxis: true,
-            sensitivity: 1
-        },
-        keyboard: {
-            enabled: true,
-            onlyInViewport: true
-        },
-        effect: 'slide',
-        autoHeight: true,
-        grabCursor: true,
-        resistanceRatio: 0.7,
-        on: {
-            init: function() {
-                updateActiveNavLink(this.activeIndex);
+        // Initialize Swiper
+        const swiper = new Swiper('.swiper-container', {
+            direction: 'horizontal',
+            loop: false,
+            mousewheel: {
+                forceToAxis: true,
+                sensitivity: 1
             },
-            slideChange: function() {
-                updateActiveNavLink(this.activeIndex);
-                if (this.activeIndex === 1) {
-                    animateSkillBars();
+            keyboard: {
+                enabled: true,
+                onlyInViewport: true
+            },
+            effect: 'slide',
+            autoHeight: true,
+            grabCursor: true,
+            resistanceRatio: 0.7,
+            on: {
+                init: function() {
+                    updateActiveNavLink(this.activeIndex);
+                },
+                slideChange: function() {
+                    updateActiveNavLink(this.activeIndex);
+                    if (this.activeIndex === 1) {
+                        animateSkillBars();
+                    }
                 }
             }
+        });
+
+        // Mobile menu functions
+        function toggleMenu() {
+            const links = document.querySelector('.Links');
+            links.classList.toggle('show');
+            links.setAttribute('aria-hidden', !links.classList.contains('show'));
         }
-    });
 
-    // Mobile menu functions
-    function toggleMenu() {
-        document.querySelector('.Links').classList.toggle('show');
-    }
+        function closeMobileMenu() {
+            const links = document.querySelector('.Links');
+            links.classList.remove('show');
+            links.setAttribute('aria-hidden', 'true');
+        }
 
-    function closeMobileMenu() {
-        document.querySelector('.Links').classList.remove('show');
-    }
-
-    // Navigation functions
-    function Navigate(index) {
-        updateActiveNavLink(index);
-        swiper.slideTo(index);
-        closeMobileMenu();
-    }
-
-    function updateActiveNavLink(index) {
-        document.querySelectorAll('.Links li').forEach(li => {
-            li.classList.remove('activeLink');
-        });
-        document.querySelectorAll('.Links li')[index].classList.add('activeLink');
-    }
-
-    // Animate skill bars
-    function animateSkillBars() {
-        const skillBars = document.querySelectorAll('.skill-progress');
-        skillBars.forEach(bar => {
-            const targetWidth = bar.getAttribute('data-width') || '0%';
-            bar.style.width = '0'; // Reset width for animation
-            // Trigger reflow to restart animation
-            void bar.offsetWidth;
-            bar.style.width = targetWidth; // Animate to target width
-        });
-    }
-
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', function(event) {
-        const menuToggle = document.querySelector('.menu-toggle');
-        const links = document.querySelector('.Links');
-        if (!menuToggle.contains(event.target) && !links.contains(event.target)) {
+        // Navigation functions
+        function Navigate(index) {
+            updateActiveNavLink(index);
+            swiper.slideTo(index);
             closeMobileMenu();
         }
-    });
 
-    // Touch event handling for mobile swipe
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    document.addEventListener('touchstart', e => {
-        touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
-
-    document.addEventListener('touchend', e => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    }, { passive: true });
-
-    function handleSwipe() {
-        const threshold = 50; // Minimum swipe distance
-        if (touchEndX < touchStartX - threshold) {
-            swiper.slideNext();
+        function updateActiveNavLink(index) {
+            document.querySelectorAll('.Links li').forEach(li => {
+                li.classList.remove('activeLink');
+            });
+            document.querySelectorAll('.Links li')[index].classList.add('activeLink');
         }
-        if (touchEndX > touchStartX + threshold) {
-            swiper.slidePrev();
+
+        // Animate skill bars
+        function animateSkillBars() {
+            const skillBars = document.querySelectorAll('.skill-progress');
+            skillBars.forEach(bar => {
+                const targetWidth = bar.getAttribute('data-width') || '0%';
+                bar.style.width = '0';
+                void bar.offsetWidth;
+                bar.style.width = targetWidth;
+            });
         }
-    }
 
-    // Keyboard navigation
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'ArrowRight') {
-            swiper.slideNext();
-        } else if (e.key === 'ArrowLeft') {
-            swiper.slidePrev();
-        } else if (e.key >= '1' && e.key <= '5') {
-            const index = parseInt(e.key) - 1;
-            Navigate(index);
-        }
-    });
-
-    // Form submission handler
-    async function sendEmail(e) {
-        e.preventDefault();
-        const form = e.target;
-        const submitBtn = form.querySelector('.submit-btn');
-        const originalBtnText = submitBtn.innerHTML;
-
-        try {
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-            submitBtn.disabled = true;
-
-            await emailjs.sendForm(
-                'service_442mfh',
-                'template_gechfl0x',
-                form,
-                'i65U53N4yTK_YnW1'
-            );
-
-            submitBtn.innerHTML = '<i class="fas fa-check"></i> Sent!';
-            form.reset();
-
-            setTimeout(() => {
-                submitBtn.innerHTML = originalBtnText;
-                submitBtn.disabled = false;
-            }, 3000);
-        } catch (error) {
-            console.error('Failed to send message:', error);
-            submitBtn.innerHTML = '<i class="fas fa-times"></i> Error';
-            setTimeout(() => {
-                submitBtn.innerHTML = originalBtnText;
-                submitBtn.disabled = false;
-            }, 3000);
-
-            // Fallback: Open default mail client
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
-            const subject = `Message from ${name}`;
-            const body = `Name: ${name}%0D%0AEmail: ${email}%0D%0A%0D%0A${message}`;
-            window.open(`mailto:abhinavabby9@gmail.com?subject=${subject}&body=${body}`);
-        }
-    }
-
-    // Form validation
-    document.getElementById('contactForm').addEventListener('input', function(e) {
-        const form = e.currentTarget;
-        const submitBtn = form.querySelector('.submit-btn');
-        submitBtn.disabled = !form.checkValidity();
-    });
-
-    // Preload images
-    function preloadImages() {
-        const images = [
-            'image.jpeg',
-            'https://picsum.photos/600/400?random=1',
-            'https://picsum.photos/600/400?random=2',
-            'https://picsum.photos/600/400?random=3',
-            'https://picsum.photos/600/400?random=4',
-            'https://picsum.photos/600/400?random=5'
-        ];
-        images.forEach(imgSrc => {
-            const img = new Image();
-            img.src = imgSrc;
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const links = document.querySelector('.Links');
+            if (!menuToggle.contains(event.target) && !links.contains(event.target)) {
+                closeMobileMenu();
+            }
         });
-    }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        preloadImages();
-        updateActiveNavLink(swiper.activeIndex);
-    });
-</script>
+        // Touch event handling for mobile swipe
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        document.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const threshold = 50;
+            if (touchEndX < touchStartX - threshold) {
+                swiper.slideNext();
+            }
+            if (touchEndX > touchStartX + threshold) {
+                swiper.slidePrev();
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') {
+                swiper.slideNext();
+            } else if (e.key === 'ArrowLeft') {
+                swiper.slidePrev();
+            } else if (e.key >= '1' && e.key <= '5') {
+                const index = parseInt(e.key) - 1;
+                Navigate(index);
+            }
+        });
+
+        // Form submission handler
+        async function sendEmail(e) {
+            e.preventDefault();
+            const form = e.target;
+            const submitBtn = form.querySelector('.submit-btn');
+            const originalBtnText = submitBtn.innerHTML;
+
+            try {
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                submitBtn.disabled = true;
+
+                await emailjs.sendForm(
+                    'service_442mfh',
+                    'template_gechfl0x',
+                    form,
+                    'i65U53N4yTK_YnW1'
+                );
+
+                submitBtn.innerHTML = '<i class="fas fa-check"></i> Sent!';
+                form.reset();
+
+                setTimeout(() => {
+                    submitBtn.innerHTML = originalBtnText;
+                    submitBtn.disabled = false;
+                }, 3000);
+            } catch (error) {
+                console.error('Failed to send message:', error);
+                submitBtn.innerHTML = '<i class="fas fa-times"></i> Error';
+                setTimeout(() => {
+                    submitBtn.innerHTML = originalBtnText;
+                    submitBtn.disabled = false;
+                }, 3000);
+
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const message = document.getElementById('message').value;
+                const subject = `Message from ${name}`;
+                const body = `Name: ${name}%0D%0AEmail: ${email}%0D%0A%0D%0A${message}`;
+                window.open(`mailto:abhinavabby9@gmail.com?subject=${subject}&body=${body}`);
+            }
+        }
+
+        // Form validation
+        document.getElementById('contactForm').addEventListener('input', function(e) {
+            const form = e.currentTarget;
+            const submitBtn = form.querySelector('.submit-btn');
+            const email = form.querySelector('#email').value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            submitBtn.disabled = !form.checkValidity() || !emailRegex.test(email);
+        });
+
+        // Preload images
+        function preloadImages() {
+            const images = [
+                'image.jpeg',
+                'https://picsum.photos/600/400?random=1',
+                'https://picsum.photos/600/400?random=2',
+                'https://picsum.photos/600/400?random=3',
+                'https://picsum.photos/600/400?random=4',
+                'https://picsum.photos/600/400?random=5'
+            ];
+            images.forEach(imgSrc => {
+                const img = new Image();
+                img.src = imgSrc;
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            preloadImages();
+            updateActiveNavLink(swiper.activeIndex);
+        });
+    </script>
+</body>
+</html>
